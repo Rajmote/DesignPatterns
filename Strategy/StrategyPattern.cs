@@ -1,6 +1,6 @@
 ﻿namespace DesignPatterns.Strategy;
 
-public class Strategy
+public class StrategyPattern
 {
     public void Run()
     {

@@ -1,4 +1,5 @@
-﻿using DesignPatterns.Observer;
+﻿using DesignPatterns.Decorator;
+using DesignPatterns.Observer;
 using DesignPatterns.Strategy;
 
 Console.WriteLine("Welcome to the C# Design Patterns!");
@@ -12,4 +13,9 @@ Console.WriteLine();
 Console.WriteLine("----- Observer Design Pattern -----");
 var observerPattern = new ObserverPattern();
 observerPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Decorator Design Pattern -----");
+var decoratorPattern = new DecoratorPattern();
+decoratorPattern.Run();
 Console.WriteLine();

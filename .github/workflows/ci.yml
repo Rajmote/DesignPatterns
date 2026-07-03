@@ -1,0 +1,34 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Fetch the code from the repository
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2. Set up the .NET 10 SDK version
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x' # Configured to look for the latest .NET 10 SDK patch
+
+    # 3. Download and cache NuGet packages
+    - name: Restore dependencies
+      run: dotnet restore
+
+    # 4. Compile the project in Release mode
+    - name: Build project
+      run: dotnet build --configuration Release --no-restore
+
+    # 5. Run all unit tests
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build --verbosity normal

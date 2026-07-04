@@ -24,3 +24,8 @@ Console.WriteLine("----- Factory Design Pattern -----");
 var factoryPattern = new FactoryPattern();
 factoryPattern.Run();
 Console.WriteLine();
+
+Console.WriteLine("----- Singleton Design Pattern -----");
+var singletonPattern = new SingletonPattern();  
+singletonPattern.Run();
+Console.WriteLine();

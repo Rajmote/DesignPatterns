@@ -7,8 +7,12 @@ public class FactoryPattern
         simpleFactory.Run();
 
         // Abstract Factory
-        var abstractFactory = new AbstractFactory();    
+        var abstractFactory = new AbstractFactory();
         abstractFactory.Run();
-        
+
+        // Factory Method
+        var factoryMethod = new FactoryMethod();
+        factoryMethod.Run();
+
     }
 }

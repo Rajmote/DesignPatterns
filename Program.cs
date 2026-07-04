@@ -19,3 +19,8 @@ Console.WriteLine("----- Decorator Design Pattern -----");
 var decoratorPattern = new DecoratorPattern();
 decoratorPattern.Run();
 Console.WriteLine();
+
+Console.WriteLine("----- Factory Design Pattern -----");
+var factoryPattern = new FactoryPattern();
+factoryPattern.Run();
+Console.WriteLine();

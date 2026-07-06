@@ -4,8 +4,7 @@ using System.Collections.Generic;
 // ── SINGLETON ────────────────────────────────────────────────
 public sealed class GameConfig
 {
-    private static readonly Lazy<GameConfig> _instance =
-        new(() => new GameConfig());
+    private static readonly Lazy<GameConfig> _instance = new(() => new GameConfig());
 
     public static GameConfig Instance => _instance.Value;
 
@@ -22,8 +21,7 @@ public sealed class GameConfig
         Console.WriteLine("GameConfig created — only once!");
     }
 
-    public string Get(string key) =>
-        _settings.TryGetValue(key, out var val) ? val : "Not found";
+    public string Get(string key) => _settings.TryGetValue(key, out var val) ? val : "Not found";
 
     public void Set(string key, string value)
     {

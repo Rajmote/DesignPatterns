@@ -29,3 +29,8 @@ Console.WriteLine("----- Singleton Design Pattern -----");
 var singletonPattern = new SingletonPattern();  
 singletonPattern.Run();
 Console.WriteLine();
+
+Console.WriteLine("----- Command Design Pattern -----");
+var commandPattern = new CommandPattern();  
+commandPattern.Run();
+Console.WriteLine();

@@ -34,3 +34,13 @@ Console.WriteLine("----- Command Design Pattern -----");
 var commandPattern = new CommandPattern();  
 commandPattern.Run();
 Console.WriteLine();
+
+Console.WriteLine("----- Adapter Design Pattern -----");
+var adapterPattern = new AdapterPattern();  
+adapterPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Facade Design Pattern -----");
+var facadePattern = new FacadePattern();
+facadePattern.Run();
+Console.WriteLine();

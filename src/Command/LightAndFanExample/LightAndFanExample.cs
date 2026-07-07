@@ -1,7 +1,7 @@
 // Client
-public class LightAndFanExample
+public static class LightAndFanExample
 {
-    public void Run()
+    public static void Run()
     {
         var remote = new RemoteControl();
 

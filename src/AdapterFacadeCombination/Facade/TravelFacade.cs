@@ -1,3 +1,9 @@
+using DesignPatterns.AdapterFacadeCombination.Adaptees;
+using DesignPatterns.AdapterFacadeCombination.Adapters;
+using DesignPatterns.AdapterFacadeCombination.Interfaces;
+
+namespace DesignPatterns.AdapterFacadeCombination.Facade;
+
 // ── FACADE ────────────────────────────────────────────────────
 // Single entry point — hides all adapters and third parties
 // Customer only talks to this

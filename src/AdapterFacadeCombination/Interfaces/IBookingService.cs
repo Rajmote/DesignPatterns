@@ -1,3 +1,5 @@
+namespace DesignPatterns.AdapterFacadeCombination.Interfaces;
+
 // ── YOUR COMMON INTERFACE ─────────────────────────────────────
 // All adapters must implement this
 // Facade talks to this — never to third parties directly

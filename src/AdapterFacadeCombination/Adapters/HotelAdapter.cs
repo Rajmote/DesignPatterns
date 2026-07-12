@@ -1,3 +1,8 @@
+using DesignPatterns.AdapterFacadeCombination.Adaptees;
+using DesignPatterns.AdapterFacadeCombination.Interfaces;
+
+namespace DesignPatterns.AdapterFacadeCombination.Adapters;
+
 // ── ADAPTERS ──────────────────────────────────────────────────
 // Each wraps one third party and makes it look like IBookingService
 public class HotelAdapter : IBookingService

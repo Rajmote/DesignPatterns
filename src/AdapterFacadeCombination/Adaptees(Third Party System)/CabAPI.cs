@@ -1,3 +1,5 @@
+namespace DesignPatterns.AdapterFacadeCombination.Adaptees;
+
 // ── THIRD PARTY SYSTEMS (Adaptees) ───────────────────────────
 // Cannot change these — third party code
 public class CabAPI

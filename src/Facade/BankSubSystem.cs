@@ -1,3 +1,5 @@
+namespace DesignPatterns.Facade;
+
 // ── SUBSYSTEM CLASSES ─────────────────────────────────────────
 // Each handles one specific job
 // Complex individually — client should not deal with these directly

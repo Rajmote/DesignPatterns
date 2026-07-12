@@ -1,3 +1,5 @@
+namespace DesignPatterns.Facade;
+
 // ── FACADE ────────────────────────────────────────────────────
 // Single entry point — hides all complexity from client
 // Client only talks to this class

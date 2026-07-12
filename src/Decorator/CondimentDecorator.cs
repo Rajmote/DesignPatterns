@@ -1,3 +1,5 @@
+namespace DesignPatterns.Decorator;
+
 //Abstract Decorator
 public abstract class CondimentDecorator : IBeverage
 {

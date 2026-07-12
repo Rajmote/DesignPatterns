@@ -1,3 +1,5 @@
+namespace DesignPatterns.Decorator;
+
 //Concrete Whipped Cream Decorator
 public class WhippedCream : CondimentDecorator
 {

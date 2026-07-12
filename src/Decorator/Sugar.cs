@@ -1,3 +1,5 @@
+namespace DesignPatterns.Decorator;
+
 //Concrete Sugar Decorator
 public class Sugar : CondimentDecorator
 {

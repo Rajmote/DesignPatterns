@@ -1,3 +1,4 @@
+namespace DesignPatterns.Facade;
 // ── CLIENT ────────────────────────────────────────────────────
 // Only talks to BankFacade — no idea subsystems exist
 public class FacadePattern

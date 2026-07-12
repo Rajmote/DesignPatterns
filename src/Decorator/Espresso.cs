@@ -1,3 +1,5 @@
+namespace DesignPatterns.Decorator;
+
 //Concrete Component
 public class Espresso : IBeverage
 {

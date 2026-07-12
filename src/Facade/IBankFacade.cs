@@ -1,3 +1,5 @@
+namespace DesignPatterns.Facade;
+
 public interface IBankFacade
 {
     void OpenAccount(string name);

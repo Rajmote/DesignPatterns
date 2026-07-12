@@ -1,3 +1,5 @@
+namespace DesignPatterns.Decorator;
+
 //Concrete Milk Decorators
 public class Milk : CondimentDecorator
 {

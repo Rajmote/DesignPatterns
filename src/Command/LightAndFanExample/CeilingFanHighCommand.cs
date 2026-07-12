@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command.LightAndFanExample;
+
 // Concrete Commands — CeilingFan
 public class CeilingFanHighCommand : ICommand
 {

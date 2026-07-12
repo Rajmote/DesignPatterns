@@ -1,5 +1,7 @@
+namespace DesignPatterns.Command.LightAndFanExample;
+
 // Client
-public static class LightAndFanExample
+public static class LightAndFanClient
 {
     public static void Run()
     {

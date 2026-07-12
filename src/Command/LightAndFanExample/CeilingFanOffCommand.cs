@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command.LightAndFanExample;
+
 public class CeilingFanOffCommand : ICommand
 {
     private CeilingFan _fan;

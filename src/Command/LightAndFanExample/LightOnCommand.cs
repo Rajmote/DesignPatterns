@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command.LightAndFanExample;
+
 // Concrete Commands — Light
 public class LightOnCommand : ICommand
 {

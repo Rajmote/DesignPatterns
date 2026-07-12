@@ -1,6 +1,8 @@
+namespace DesignPatterns.Command.KitchenExample;
+
 // ── CLIENT ────────────────────────────────────────────────────
 // Customer placing orders at the restaurant
-public static class KitchenExample
+public static class KitchenClient
 {
     public static void Run()
     {

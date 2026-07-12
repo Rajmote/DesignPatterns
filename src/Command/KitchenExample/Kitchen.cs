@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command.KitchenExample;
+
 // ── RECEIVER ──────────────────────────────────────────────────
 // Kitchen does the actual work — prepare or cancel food
 public class Kitchen

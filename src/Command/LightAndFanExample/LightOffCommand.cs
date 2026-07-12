@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command.LightAndFanExample;
+
 public class LightOffCommand : ICommand
 {
     private Light _light;

@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command.KitchenExample;
+
 // ── INVOKER ───────────────────────────────────────────────────
 // Waiter — takes orders and passes to kitchen
 // Does not know what food is — only knows ICommand

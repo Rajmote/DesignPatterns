@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command.LightAndFanExample;
+
 // Receiver 2 — CeilingFan
 public class CeilingFan
 {

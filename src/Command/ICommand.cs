@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command;
+
 // Command Interface
 public interface ICommand
 {

@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command.LightAndFanExample;
+
 // Invoker — Remote Control with 7 slots
 public class RemoteControl
 {

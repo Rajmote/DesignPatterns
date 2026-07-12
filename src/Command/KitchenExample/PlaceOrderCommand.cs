@@ -1,3 +1,5 @@
+namespace DesignPatterns.Command.KitchenExample;
+
 // ── CONCRETE COMMAND ──────────────────────────────────────────
 // Wraps one food order as a command object
 public class PlaceOrderCommand : ICommand

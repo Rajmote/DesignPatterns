@@ -1,3 +1,4 @@
+namespace DesignPatterns.Adapter;
 // ── PAYPAL ADAPTER ────────────────────────────────────────────
 // Wraps PayPal and makes it look like IPaymentProcessor
 // Store thinks it is talking to IPaymentProcessor

@@ -1,3 +1,4 @@
+namespace DesignPatterns.Adapter;
 // ── GPAY ──────────────────────────────────────────────────────
 // Another third party — also different method name
 public class GPay

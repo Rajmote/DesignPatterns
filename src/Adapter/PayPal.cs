@@ -1,3 +1,4 @@
+namespace DesignPatterns.Adapter;
 // ── PAYPAL ────────────────────────────────────────────────────
 // Third party class — you cannot change this
 // Has different method name than your interface expects

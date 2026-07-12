@@ -1,3 +1,4 @@
+namespace DesignPatterns.Adapter;
 // ── ONLINE STORE ──────────────────────────────────────────────
 // Only knows IPaymentProcessor — never PayPal or GPay directly
 // Swap payment provider anytime — store code never changes

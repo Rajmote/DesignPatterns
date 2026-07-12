@@ -1,3 +1,4 @@
+namespace DesignPatterns.Adapter;
 // Client
 public class AdapterPattern
 {

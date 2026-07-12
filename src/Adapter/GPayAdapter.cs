@@ -1,3 +1,4 @@
+namespace DesignPatterns.Adapter;
 // ── GPAY ADAPTER ──────────────────────────────────────────────
 // Wraps GPay and makes it look like IPaymentProcessor
 // Store thinks it is talking to IPaymentProcessor

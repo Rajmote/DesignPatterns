@@ -1,3 +1,4 @@
+namespace DesignPatterns.Singleton;
 public class SingletonPattern
 {
     public void Run()

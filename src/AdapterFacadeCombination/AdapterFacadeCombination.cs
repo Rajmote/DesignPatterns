@@ -2,7 +2,7 @@
 // Only knows TravelFacade — has no idea about APIs or Adapters
 public class AdapterFacadeCombination
 {
-    public static void Run()
+    public void Run()
     {
         var travel = new TravelFacade();
         travel.BookTrip("Raj");

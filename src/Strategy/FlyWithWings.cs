@@ -1,6 +1,6 @@
-﻿namespace DesignPatterns.Strategy;
+namespace DesignPatterns.Strategy;
 
-public class FlyWithWings:IFlyBehaviour
+public class FlyWithWings : IFlyBehaviour
 {
     public void Fly()
     {

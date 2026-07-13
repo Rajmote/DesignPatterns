@@ -1,0 +1,23 @@
+<Project>
+
+  <!-- Applied to every project in the repo. Central place for quality settings. -->
+  <PropertyGroup>
+    <!-- Turn on the built-in .NET code-quality (CAxxxx) analyzers -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+
+    <!-- Report .editorconfig code-style (IDExxxx) violations during `dotnet build`,
+         not just in the IDE — so CI sees them too. -->
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <!-- Required for IDE0005 (remove unnecessary usings) to run on build.
+         Suppress CS1591 so we don't demand XML doc comments on every public member. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!-- Start lenient (violations are warnings). Flip to true once the code base is
+         clean to HARD-FAIL the build on any warning. -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+</Project>

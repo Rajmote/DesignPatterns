@@ -1,4 +1,4 @@
-﻿namespace DesignPatterns.Observer;
+namespace DesignPatterns.Observer;
 
 public class ObserverPattern
 {

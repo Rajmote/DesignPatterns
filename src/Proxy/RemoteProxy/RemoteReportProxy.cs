@@ -1,4 +1,5 @@
 namespace DesignPatterns.Proxy.RemoteProxy;
+
 public class RemoteReportProxy : IReportService
 {
     private readonly HttpClient _http = new();

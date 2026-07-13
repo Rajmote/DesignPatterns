@@ -12,7 +12,7 @@ public class MediaPlayer
     }
 
     // Every method is a one-liner: hand off to the current state.
-    public void Play()  => State.Play(this);
+    public void Play() => State.Play(this);
     public void Pause() => State.Pause(this);
-    public void Stop()  => State.Stop(this);
+    public void Stop() => State.Stop(this);
 }

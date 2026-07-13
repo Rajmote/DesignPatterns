@@ -29,7 +29,7 @@ public class NewsAgency : IObservable<string>
 
         public Subscription(List<IObserver<string>> list, IObserver<string> observer)
         {
-            _list     = list;
+            _list = list;
             _observer = observer;
         }
 

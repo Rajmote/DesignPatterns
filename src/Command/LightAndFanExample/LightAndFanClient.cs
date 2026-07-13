@@ -9,21 +9,21 @@ public static class LightAndFanClient
 
         // Create receivers
         var livingRoomLight = new Light("Living Room");
-        var kitchenLight    = new Light("Kitchen");
-        var ceilingFan      = new CeilingFan("Living Room");
+        var kitchenLight = new Light("Kitchen");
+        var ceilingFan = new CeilingFan("Living Room");
 
         // Create commands
-        var livingRoomLightOn   = new LightOnCommand(livingRoomLight);
-        var livingRoomLightOff  = new LightOffCommand(livingRoomLight);
-        var kitchenLightOn      = new LightOnCommand(kitchenLight);
-        var kitchenLightOff     = new LightOffCommand(kitchenLight);
-        var ceilingFanHigh      = new CeilingFanHighCommand(ceilingFan);
-        var ceilingFanOff       = new CeilingFanOffCommand(ceilingFan);
+        var livingRoomLightOn = new LightOnCommand(livingRoomLight);
+        var livingRoomLightOff = new LightOffCommand(livingRoomLight);
+        var kitchenLightOn = new LightOnCommand(kitchenLight);
+        var kitchenLightOff = new LightOffCommand(kitchenLight);
+        var ceilingFanHigh = new CeilingFanHighCommand(ceilingFan);
+        var ceilingFanOff = new CeilingFanOffCommand(ceilingFan);
 
         // Load commands into slots
-        remote.SetCommand(0, livingRoomLightOn,  livingRoomLightOff);
-        remote.SetCommand(1, kitchenLightOn,     kitchenLightOff);
-        remote.SetCommand(2, ceilingFanHigh,     ceilingFanOff);
+        remote.SetCommand(0, livingRoomLightOn, livingRoomLightOff);
+        remote.SetCommand(1, kitchenLightOn, kitchenLightOff);
+        remote.SetCommand(2, ceilingFanHigh, ceilingFanOff);
 
         // Press buttons
         remote.OnButtonPressed(0);

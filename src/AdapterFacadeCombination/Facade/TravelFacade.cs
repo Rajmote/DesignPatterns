@@ -18,8 +18,8 @@ public class TravelFacade
     {
         // Wire adapters to their third party systems
         _flightBooking = new FlightAdapter(new FlightAPI());
-        _hotelBooking  = new HotelAdapter(new HotelAPI());
-        _cabBooking    = new CabAdapter(new CabAPI());
+        _hotelBooking = new HotelAdapter(new HotelAPI());
+        _cabBooking = new CabAdapter(new CabAPI());
     }
 
     // One simple method — books entire trip

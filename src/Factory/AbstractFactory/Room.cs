@@ -1,6 +1,6 @@
 
 namespace DesignPatterns.Factory;
- // Client Code (uses the factory)
+// Client Code (uses the factory)
 public class Room
 {
     private readonly ISofa _sofa;
@@ -9,7 +9,7 @@ public class Room
     // Room does not know IKEA or Royal — only knows the factory
     public Room(IFurnitureFactory factory)
     {
-        _sofa  = factory.CreateSofa();
+        _sofa = factory.CreateSofa();
         _chair = factory.CreateChair();
     }
 

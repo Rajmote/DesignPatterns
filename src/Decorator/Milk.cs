@@ -11,7 +11,7 @@ public class Milk : CondimentDecorator
 
     public override string GetDescription()
     {
-        return Beverage.GetDescription() 
+        return Beverage.GetDescription()
                + ", Milk";
     }
 

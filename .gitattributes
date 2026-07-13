@@ -1,0 +1,23 @@
+# Normalize line endings so Windows/macOS/Linux + CI + dotnet format all agree.
+# Source is checked out with CRLF (Windows-friendly); binaries are left untouched.
+* text=auto
+
+*.cs      text eol=crlf
+*.csproj  text eol=crlf
+*.sln     text eol=crlf
+*.props   text eol=crlf
+*.targets text eol=crlf
+*.md      text eol=crlf
+*.json    text eol=crlf
+*.yml     text eol=crlf
+*.yaml    text eol=crlf
+
+# Binary files — never apply EOL conversion
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.dll binary
+*.exe binary

@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 
 namespace DesignPatterns.Enumerator;
+
 public class BookShelf : IEnumerable<string>
 {
     private readonly string[] _books;

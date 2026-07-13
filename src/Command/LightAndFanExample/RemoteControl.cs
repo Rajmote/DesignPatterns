@@ -3,16 +3,16 @@ namespace DesignPatterns.Command.LightAndFanExample;
 // Invoker — Remote Control with 7 slots
 public class RemoteControl
 {
-    private ICommand[] _onCommands  = new ICommand[7];
+    private ICommand[] _onCommands = new ICommand[7];
     private ICommand[] _offCommands = new ICommand[7];
-    private ICommand   _lastCommand;
+    private ICommand _lastCommand;
 
     public RemoteControl()
     {
         // Fill all slots with NoCommand — no null checks needed
         for (int i = 0; i < 7; i++)
         {
-            _onCommands[i]  = new NoCommand();
+            _onCommands[i] = new NoCommand();
             _offCommands[i] = new NoCommand();
         }
         _lastCommand = new NoCommand();
@@ -20,7 +20,7 @@ public class RemoteControl
 
     public void SetCommand(int slot, ICommand onCommand, ICommand offCommand)
     {
-        _onCommands[slot]  = onCommand;
+        _onCommands[slot] = onCommand;
         _offCommands[slot] = offCommand;
     }
 

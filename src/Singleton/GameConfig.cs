@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 // ── SINGLETON ────────────────────────────────────────────────
 public sealed class GameConfig
 {
@@ -14,10 +11,10 @@ public sealed class GameConfig
     private GameConfig()
     {
         // Load default settings once
-        _settings["difficulty"]  = "Medium";
-        _settings["resolution"]  = "1920x1080";
-        _settings["sound"]       = "On";
-        _settings["language"]    = "English";
+        _settings["difficulty"] = "Medium";
+        _settings["resolution"] = "1920x1080";
+        _settings["sound"] = "On";
+        _settings["language"] = "English";
         Console.WriteLine("GameConfig created — only once!");
     }
 

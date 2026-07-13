@@ -1,9 +1,10 @@
 namespace DesignPatterns.Singleton;
+
 public class SingletonPattern
 {
     public void Run()
     {
-      Console.WriteLine("=== Game Starting ===\n");
+        Console.WriteLine("=== Game Starting ===\n");
 
         // First access — instance created here
         GameConfig.Instance.PrintAll();

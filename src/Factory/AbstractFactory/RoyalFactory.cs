@@ -5,6 +5,6 @@ namespace DesignPatterns.Factory;
 
 public class RoyalFactory : IFurnitureFactory
 {
-    public ISofa CreateSofa()   => new RoyalSofa();
+    public ISofa CreateSofa() => new RoyalSofa();
     public IChair CreateChair() => new RoyalChair();
 }

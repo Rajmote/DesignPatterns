@@ -19,16 +19,21 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '10.0.x' # Configured to look for the latest .NET 10 SDK patch
+        dotnet-version: '10.0.x' # Latest .NET 10 SDK patch
 
     # 3. Download and cache NuGet packages
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore DesignPatterns.sln
 
-    # 4. Compile the project in Release mode
+    # 4. Verify formatting — FAILS the build if any file is not formatted per .editorconfig.
+    #    Fix locally with:  dotnet format DesignPatterns.sln
+    - name: Verify formatting
+      run: dotnet format DesignPatterns.sln --verify-no-changes --no-restore
+
+    # 5. Compile in Release (analyzers + code-style run here via Directory.Build.props)
     - name: Build project
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build DesignPatterns.sln --configuration Release --no-restore
 
-    # 5. Run all unit tests
+    # 6. Run all unit tests
     - name: Run tests
-      run: dotnet test --configuration Release --no-build --verbosity normal
+      run: dotnet test DesignPatterns.sln --configuration Release --no-build --verbosity normal

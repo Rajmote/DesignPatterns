@@ -1,4 +1,5 @@
 namespace DesignPatterns.Enumerator;
+
 public class EnumeratorPattern
 {
     public void Run()

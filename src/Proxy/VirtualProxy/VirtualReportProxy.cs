@@ -1,6 +1,5 @@
-using DesignPatterns.Proxy;
-
 namespace DesignPatterns.Proxy.VirtualProxy;
+
 public class VirtualReportProxy : IReportService
 {
     private ReportService? _real;

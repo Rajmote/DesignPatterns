@@ -1,4 +1,4 @@
-﻿namespace DesignPatterns.Strategy;
+namespace DesignPatterns.Strategy;
 
 public abstract class Duck
 {
@@ -14,7 +14,7 @@ public abstract class Duck
     {
         _flyBehaviour = flyBehaviour;
     }
-    
+
     // Delegates flying to the current strategy object.
     // Duck itself doesn't know HOW flying is implemented.
     // It only knows that the strategy has a Fly() method.
@@ -22,7 +22,7 @@ public abstract class Duck
     {
         _flyBehaviour.Fly();
     }
-    
+
     // Allows changing the strategy at runtime.
     // Example:
     // duck.SetFlyBehaviour(new FlyWithWings());
@@ -31,18 +31,18 @@ public abstract class Duck
     {
         _flyBehaviour = flyBehaviour;
     }
-    
+
     // Each concrete duck must provide its own display logic.
     // For example,
     // MallardDuck => "I am a Mallard Duck"
     // RubberDuck => "I am a Rubber Duck"
     public abstract void Display();
-    
+
     // Common behavior shared by all ducks.
     // Since every duck can swim, it is implemented in the base class.
     public void Swim()
     {
         Console.WriteLine("All ducks float.");
     }
-    
+
 }

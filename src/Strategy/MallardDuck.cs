@@ -1,4 +1,4 @@
-﻿namespace DesignPatterns.Strategy;
+namespace DesignPatterns.Strategy;
 
 public class MallardDuck() : Duck(new FlyWithWings())
 {

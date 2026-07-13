@@ -16,7 +16,7 @@ public class FactoryMethod
         // Planning delivery...
         // Delivering by sea in a Ship.
 
-         // Switch to air — zero changes to Logistics base class
+        // Switch to air — zero changes to Logistics base class
         logistics = new AirLogistics();
         logistics.PlanDelivery();
         // Planning delivery...

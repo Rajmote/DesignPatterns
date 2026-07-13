@@ -13,7 +13,7 @@ public interface ICommand
 public class NoCommand : ICommand
 {
     public void Execute() => Console.WriteLine("No command assigned to this slot");
-    public void Undo()    => Console.WriteLine("Nothing to undo");
+    public void Undo() => Console.WriteLine("Nothing to undo");
 }
 
 

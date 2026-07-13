@@ -1,4 +1,5 @@
 namespace DesignPatterns.Iterator;
+
 public class IteratorPattern
 {
     public void Run()

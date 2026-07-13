@@ -9,7 +9,7 @@ public class PlaceOrderCommand : ICommand
 
     public PlaceOrderCommand(Kitchen kitchen, string foodItem)
     {
-        _kitchen  = kitchen;
+        _kitchen = kitchen;
         _foodItem = foodItem;
     }
 
@@ -17,5 +17,5 @@ public class PlaceOrderCommand : ICommand
     public void Execute() => _kitchen.PrepareFood(_foodItem);
 
     // Cancel the order — tell kitchen to cancel
-    public void Undo()    => _kitchen.CancelFood(_foodItem);
+    public void Undo() => _kitchen.CancelFood(_foodItem);
 }

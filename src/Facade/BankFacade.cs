@@ -6,10 +6,10 @@ namespace DesignPatterns.Facade;
 public class BankFacade : IBankFacade
 {
     // All subsystem classes created and managed inside Facade
-    private IdentityService      _identityService      = new();
-    private CreditService        _creditService        = new();
-    private AccountService       _accountService       = new();
-    private CardService          _cardService          = new();
+    private IdentityService _identityService = new();
+    private CreditService _creditService = new();
+    private AccountService _accountService = new();
+    private CardService _cardService = new();
     private OnlineBankingService _onlineBankingService = new();
 
     // One simple method for client — coordinates all subsystems

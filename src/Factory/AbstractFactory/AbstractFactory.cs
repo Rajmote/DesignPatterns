@@ -1,5 +1,6 @@
 
 namespace DesignPatterns.Factory;
+
 public class AbstractFactory
 {
     public void Run()

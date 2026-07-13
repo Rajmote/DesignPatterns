@@ -1,4 +1,4 @@
-﻿using DesignPatterns.Adapter;
+using DesignPatterns.Adapter;
 using DesignPatterns.AdapterFacadeCombination;
 using DesignPatterns.Command;
 using DesignPatterns.Composite;
@@ -8,9 +8,9 @@ using DesignPatterns.Facade;
 using DesignPatterns.Factory;
 using DesignPatterns.Iterator;
 using DesignPatterns.Observer;
+using DesignPatterns.Singleton;
 using DesignPatterns.State;
 using DesignPatterns.Strategy;
-using DesignPatterns.Singleton;
 using DesignPatterns.TemplateMethod;
 
 Console.WriteLine("Welcome to the C# Design Patterns!");
@@ -37,17 +37,17 @@ factoryPattern.Run();
 Console.WriteLine();
 
 Console.WriteLine("----- Singleton Design Pattern -----");
-var singletonPattern = new SingletonPattern();  
+var singletonPattern = new SingletonPattern();
 singletonPattern.Run();
 Console.WriteLine();
 
 Console.WriteLine("----- Command Design Pattern -----");
-var commandPattern = new CommandPattern();  
+var commandPattern = new CommandPattern();
 commandPattern.Run();
 Console.WriteLine();
 
 Console.WriteLine("----- Adapter Design Pattern -----");
-var adapterPattern = new AdapterPattern();  
+var adapterPattern = new AdapterPattern();
 adapterPattern.Run();
 Console.WriteLine();
 
@@ -58,7 +58,7 @@ Console.WriteLine();
 
 Console.WriteLine("----- Adapter with Facade Design Pattern -----");
 var adapterFacadeCombination = new AdapterFacadeCombination();
-adapterFacadeCombination.Run(); 
+adapterFacadeCombination.Run();
 Console.WriteLine();
 
 Console.WriteLine("----- Composite Design Pattern -----");

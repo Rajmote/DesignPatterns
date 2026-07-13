@@ -1,3 +1,5 @@
+namespace DesignPatterns.TemplateMethod;
+
 // ── TEA ───────────────────────────────────────────────────────
 // Fills in only the tea-specific steps
 public class Tea : HotDrink

@@ -1,82 +1,44 @@
-## Factory Method Pattern
-```markdown
 # Factory Method Pattern
-## What is it?
-A method that creates objects but lets **subclasses decide which object to create**.
-The parent class defines the structure, subclasses decide the details.
-## Real-World Analogy
-A logistics company ships goods. How they ship depends on the type:
-- **Road logistics** → creates a Truck
-- **Sea logistics**  → creates a Ship
-## Step 1 — Product Interface
-```csharp
-public interface ITransport
-{
-    void Deliver();
-}
-Step 2 — Concrete Products
-public class Truck : ITransport
-{
-    public void Deliver() => Console.WriteLine("Delivering by road in a Truck.");
-}
 
-public class Ship : ITransport
-{
-    public void Deliver() => Console.WriteLine("Delivering by sea in a Ship.");
-}
-Step 3 — Creator (base class with factory method)
-public abstract class Logistics
-{
-    public abstract ITransport CreateTransport(); // factory method
+> **Intent:** Define a creation method in a base class but let each subclass decide which concrete product to instantiate.
 
-    public void PlanDelivery()
-    {
-        ITransport transport = CreateTransport();
-        Console.WriteLine("Planning delivery...");
-        transport.Deliver();
-    }
-}
-Step 4 — Concrete Creators
-public class RoadLogistics : Logistics
-{
-    public override ITransport CreateTransport() => new Truck();
-}
+**Category:** Creational
 
-public class SeaLogistics : Logistics
-{
-    public override ITransport CreateTransport() => new Ship();
-}
-Usage
-Logistics logistics = new RoadLogistics();
-logistics.PlanDelivery();
-// Planning delivery...
-// Delivering by road in a Truck.
+## Participants
+- **Creator** (`Logistics`) — abstract base declaring the factory method `CreateTransport()` and the business logic `PlanDelivery()` that uses it.
+- **Concrete Creators** (`RoadLogistics`, `SeaLogistics`, `AirLogistics`) — override `CreateTransport()` to return a specific transport.
+- **Product** (`ITransport`) — abstraction with `Deliver()`; the base class only ever touches this type.
+- **Concrete Products** (`Truck`, `Ship`, `Plane`) — implementations of `ITransport`.
+- **Client / Demo** (`FactoryMethod`) — `Run()` holds a `Logistics` reference, swaps concrete creators, and calls `PlanDelivery()`.
 
-logistics = new SeaLogistics();
-logistics.PlanDelivery();
-// Planning delivery...
-// Delivering by sea in a Ship.
-Adding New Type — Zero Changes to Existing Code
-public class Plane : ITransport
-{
-    public void Deliver() => Console.WriteLine("Delivering by air in a Plane.");
-}
+## Flow diagram
 
-public class AirLogistics : Logistics
-{
-    public override ITransport CreateTransport() => new Plane();
-}
-Visual Structure
-Logistics  (abstract creator)
-    │
-    ├── CreateTransport()  ← factory method
-    │
-    ├── RoadLogistics ──creates──► Truck
-    ├── SeaLogistics  ──creates──► Ship
-    └── AirLogistics  ──creates──► Plane
-    
-When to Use
-You do not know ahead of time which object you need to create
-You want subclasses to control what gets created
-You want to add new types without changing existing code
-Examples: document exporters (PDF/Word/Excel), notification senders, payment processors
+```mermaid
+flowchart TD
+    Client[FactoryMethod.Run] -->|holds Logistics ref| Logistics[Logistics.PlanDelivery]
+    Logistics -->|calls factory method| Create[CreateTransport overridden]
+    Road[RoadLogistics] --> Create
+    Sea[SeaLogistics] --> Create
+    Air[AirLogistics] --> Create
+    Create -->|RoadLogistics| Truck[Truck]
+    Create -->|SeaLogistics| Ship[Ship]
+    Create -->|AirLogistics| Plane[Plane]
+    Truck --> ITransport[ITransport]
+    Ship --> ITransport
+    Plane --> ITransport
+    ITransport -->|Deliver| Logistics
+```
+
+## How it works (in this project)
+1. `FactoryMethod.Run()` assigns `Logistics logistics = new RoadLogistics()` and calls `logistics.PlanDelivery()`.
+2. `PlanDelivery()` (defined once in `Logistics`) calls the overridden `CreateTransport()`, which returns a `Truck`, then invokes `Deliver()` → `Delivering by road in a Truck.`
+3. The demo reassigns `logistics` to `SeaLogistics` then `AirLogistics`; the same `PlanDelivery()` now produces a `Ship`, then a `Plane`.
+4. Adding a new transport means adding a `Concrete Product` plus a `Concrete Creator` — `Logistics` never changes.
+
+## When to use
+- You do not know ahead of time which concrete product is needed.
+- You want subclasses to decide what gets created while sharing common workflow.
+- You want to add new product types without touching existing code.
+
+## Analogy
+A logistics firm: the delivery process is fixed, but the road, sea, and air branches each provide their own vehicle.

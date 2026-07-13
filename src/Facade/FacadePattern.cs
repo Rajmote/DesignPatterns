@@ -5,7 +5,8 @@ public class FacadePattern
 {
     public void Run()
     {
-        var bank = new BankFacade();
+        // Depend on the IBankFacade abstraction, not the concrete facade
+        IBankFacade bank = new BankFacade();
 
         // One simple call — all complexity hidden
         bank.OpenAccount("Raj");

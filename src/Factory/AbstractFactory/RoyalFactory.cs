@@ -1,8 +1,7 @@
 
 // Royal factory — creates only Royal products - Concrete Factories
-using DesignPatterns.AbstractFactory.ProductInterfaces;
 
-namespace DesignPatterns.AbstractFactory.ConcreateProducts;
+namespace DesignPatterns.Factory;
 
 public class RoyalFactory : IFurnitureFactory
 {

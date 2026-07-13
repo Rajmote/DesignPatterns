@@ -1,6 +1,5 @@
-using DesignPatterns.AbstractFactory.ProductInterfaces;
 
-namespace DesignPatterns.AbstractFactory;
+namespace DesignPatterns.Factory;
 
 // The factory contract - Abstract Factory Interface
 public interface IFurnitureFactory

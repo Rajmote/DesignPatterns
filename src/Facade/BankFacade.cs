@@ -2,8 +2,8 @@ namespace DesignPatterns.Facade;
 
 // ── FACADE ────────────────────────────────────────────────────
 // Single entry point — hides all complexity from client
-// Client only talks to this class
-public class BankFacade
+// Client only talks to this class (through the IBankFacade contract)
+public class BankFacade : IBankFacade
 {
     // All subsystem classes created and managed inside Facade
     private IdentityService      _identityService      = new();

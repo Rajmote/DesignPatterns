@@ -1,6 +1,5 @@
-using DesignPatterns.AbstractFactory.ProductInterfaces;
 
-namespace DesignPatterns.AbstractFactory.ConcreateProducts;
+namespace DesignPatterns.Factory;
 
 public class IkeaChair : IChair
 {

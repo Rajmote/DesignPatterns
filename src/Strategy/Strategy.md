@@ -1,55 +1,37 @@
-Strategy Pattern
-# What is it?
-Define a family of algorithms, put each in a separate class,
-and make them interchangeable at runtime without changing the code that uses them.
+# Strategy Pattern
 
-# Key Participants
-Strategy interface — defines the algorithm contract
-Concrete strategies — each implements the algorithm differently
-Context — holds a reference to a strategy and calls it
+> **Intent:** Encapsulate interchangeable behaviours behind a common interface so a context object can swap them at runtime instead of hard-coding the logic.
 
-# Simple Example
+**Category:** Behavioral
 
-public interface ISortStrategy
-{
-    void Sort(List<int> data);
-}
+## Participants
+- **Context** (`Duck`) — abstract base that holds an `IFlyBehaviour` and delegates `PerformFly()` to it; also exposes `SetFlyBehaviour()` to swap the strategy at runtime.
+- **Concrete Contexts** (`MallardDuck`, `RubberDuck`) — supply an initial strategy via the base constructor (`FlyWithWings` and `FlyNoWay` respectively) and implement `Display()`.
+- **Strategy** (`IFlyBehaviour`) — interface declaring `Fly()`.
+- **Concrete Strategies** (`FlyWithWings`, `FlyNoWay`) — the interchangeable flying implementations.
+- **Client** (`StrategyPattern`) — demo entry point that builds ducks and switches behaviour at runtime.
 
-public class BubbleSort : ISortStrategy
-{
-    public void Sort(List<int> data) => Console.WriteLine("Sorting using Bubble Sort");
-}
+## Flow diagram
 
-public class QuickSort : ISortStrategy
-{
-    public void Sort(List<int> data) => Console.WriteLine("Sorting using Quick Sort");
-}
+```mermaid
+flowchart LR
+    Duck[Duck Context] -->|delegates PerformFly| IFly[IFlyBehaviour]
+    Mallard[MallardDuck] -->|is a| Duck
+    Rubber[RubberDuck] -->|is a| Duck
+    FWW[FlyWithWings] -->|implements| IFly
+    FNW[FlyNoWay] -->|implements| IFly
+```
 
-public class Sorter
-{
-    private ISortStrategy _strategy;
+## How it works (in this project)
+1. `StrategyPattern.Run()` creates a `MallardDuck`, initialised through `Duck(new FlyWithWings())`.
+2. `mallardDuck.PerformFly()` delegates to the current `IFlyBehaviour`, printing the FlyWithWings message; `Swim()` uses shared base behaviour.
+3. A `RubberDuck` is created with `FlyNoWay`, so `PerformFly()` reports it can't fly.
+4. `rubberDuck.SetFlyBehaviour(new FlyWithWings())` swaps the strategy at runtime, and the next `PerformFly()` now flies.
 
-    public Sorter(ISortStrategy strategy) => _strategy = strategy;
+## When to use
+- Several variants of an algorithm/behaviour exist and you want to choose or swap them at runtime.
+- You want to avoid large `if`/`else` or `switch` blocks that select behaviour.
+- You want behaviour to vary independently from the objects that use it (payment methods, sorting, discounts, export formats).
 
-    public void SetStrategy(ISortStrategy strategy) => _strategy = strategy;
-
-    public void Sort(List<int> data) => _strategy.Sort(data);
-}
-
-var sorter = new Sorter(new BubbleSort());
-sorter.Sort(data);
-
-sorter.SetStrategy(new QuickSort());
-sorter.Sort(data);
-
-# When to Use
-You have multiple ways to do the same thing
-You want to switch algorithms at runtime
-You want to avoid large if/else or switch blocks
-Examples: payment methods, sorting, discount calculations, export formats
-
-# Key Difference
-Observer	Strategy
-Purpose	Notify many objects when state changes	Swap algorithms at runtime
-Relationship	One publisher → many subscribers	One context → one strategy at a time
-Focus	Communication between objects	How an operation is performed
+## Analogy
+A duck delegates "how to fly" to a plug-in strategy, so you can bolt on rocket power without changing the duck.

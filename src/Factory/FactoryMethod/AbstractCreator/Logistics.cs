@@ -1,3 +1,5 @@
+namespace DesignPatterns.Factory;
+
 // Parent class — defines the factory method
 public abstract class Logistics
 {

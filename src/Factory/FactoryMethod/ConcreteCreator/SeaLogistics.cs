@@ -1,3 +1,5 @@
+namespace DesignPatterns.Factory;
+
 // Decides to create a Ship - Concrete Creator
 public class SeaLogistics : Logistics
 {

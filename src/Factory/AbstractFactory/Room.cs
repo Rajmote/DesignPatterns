@@ -1,6 +1,5 @@
-using DesignPatterns.AbstractFactory.ProductInterfaces;
 
-namespace DesignPatterns.AbstractFactory;
+namespace DesignPatterns.Factory;
  // Client Code (uses the factory)
 public class Room
 {

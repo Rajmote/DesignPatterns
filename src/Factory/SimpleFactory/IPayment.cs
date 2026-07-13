@@ -1,3 +1,5 @@
+namespace DesignPatterns.Factory;
+
 
 public interface IPayment
 {

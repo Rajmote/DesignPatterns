@@ -1,3 +1,5 @@
+namespace DesignPatterns.TemplateMethod;
+
 // ── CLIENT ────────────────────────────────────────────────────
 public class TemplateMethodPattern
 {

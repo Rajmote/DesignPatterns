@@ -42,6 +42,23 @@ touch the real object.
 
 ---
 
+## Flow diagram
+
+```mermaid
+flowchart LR
+    Client --> ISvc[IReportService]
+    Real[ReportService] -. implements .-> ISvc
+    Proxy["Proxy e.g. CachingReportProxy"] -. implements .-> ISvc
+    Client --> Proxy
+    Proxy -->|delegates| Real
+```
+
+The five flavours — `VirtualReportProxy`, `ProtectionReportProxy`, `CachingReportProxy`,
+`LoggingReportProxy`, `RemoteReportProxy` — all implement `IReportService` and (except the remote
+one) delegate to `ReportService`.
+
+---
+
 ## Shared setup for every flavour
 
 One interface, one real object, five proxies. The **structure is identical** every time — only the

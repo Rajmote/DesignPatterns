@@ -1,4 +1,4 @@
-namespace DesignPatterns.AbstractFactory.ProductInterfaces;
+namespace DesignPatterns.Factory;
 
 public interface IChair
 {

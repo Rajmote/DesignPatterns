@@ -1,3 +1,5 @@
+namespace DesignPatterns.TemplateMethod;
+
 // ── ABSTRACT BASE CLASS ───────────────────────────────────────
 // Defines the skeleton — the fixed order of steps
 // Subclasses fill in only what is different

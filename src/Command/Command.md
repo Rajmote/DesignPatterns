@@ -1,219 +1,54 @@
-# Command Pattern — Real Time Example
-## Online Food Order System
+# Command Pattern
 
----
+> **Intent:** Encapsulate a request as an object so it can be parameterised, queued, logged, and undone — decoupling the invoker from the receiver that does the work.
 
-## What is it?
-Wraps a request as an object, letting you store, queue, and undo operations.
-The sender does not need to know who executes the request or how.
+**Category:** Behavioral
 
----
+## Participants
+- **Command** (`ICommand`) — interface with `Execute()` and `Undo()`.
+- **Null Object** (`NoCommand`) — safe default `ICommand` so empty slots need no null checks.
+- **Client** (`CommandPattern`) — entry point; `Run()` runs both example clients.
 
-## Who Does What?
+### Kitchen example (`DesignPatterns.Command.KitchenExample`)
+- **Invoker** (`Waiter`) — executes commands and keeps a `Stack<ICommand>` history to undo the last order.
+- **Concrete Command** (`PlaceOrderCommand`) — wraps a food item; `Execute()` prepares, `Undo()` cancels.
+- **Receiver** (`Kitchen`) — actually prepares/cancels food.
+- **Client** (`KitchenClient`).
 
-### ICommand (Contract)
-- Contract for all order operations
-- Has Execute() — place the order
-- Has Undo() — cancel the order
+### Light & Fan example (`DesignPatterns.Command.LightAndFanExample`)
+- **Invoker** (`RemoteControl`) — 7 on/off slots plus a `_lastCommand` for undo.
+- **Concrete Commands** (`LightOnCommand`, `LightOffCommand`, `CeilingFanHighCommand`, `CeilingFanOffCommand`).
+- **Receivers** (`Light`, `CeilingFan`).
+- **Client** (`LightAndFanClient`).
 
-### Kitchen (Receiver)
-- Does the actual cooking work
-- Prepares and cancels food items
-- Has no idea about commands or invoker
+## Flow diagram
 
-### PlaceOrderCommand (Concrete Command)
-- Wraps one food order as an object
-- Holds reference to Kitchen and food item
-- Execute() — tells kitchen to prepare food
-- Undo() — tells kitchen to cancel food
-- Stores food item name — needed to cancel exactly what was ordered
+```mermaid
+flowchart LR
+    subgraph Kitchen
+        Waiter[Waiter Invoker] --> POC[PlaceOrderCommand]
+        POC -->|implements| IC1[ICommand]
+        POC -->|acts on| Kit[Kitchen Receiver]
+    end
+    subgraph LightAndFan
+        Remote[RemoteControl Invoker] --> LC[Light and Fan Commands]
+        LC -->|implements| IC2[ICommand]
+        LC -->|acts on| Recv[Light / CeilingFan Receivers]
+    end
+```
 
-### Waiter (Invoker)
-- Takes orders from customer
-- Does not know what food is — only knows ICommand
-- Passes commands to kitchen via Execute()
-- Stores order history in a Stack for cancellation
-- CancelLastOrder() pops last command and calls Undo()
+- **Kitchen:** `Waiter` -> `PlaceOrderCommand` -> `Kitchen`.
+- **LightAndFan:** `RemoteControl` -> `Light`/`CeilingFan` commands -> `Light`/`CeilingFan`.
 
-### Program / Client
-- Customer placing orders
-- Creates kitchen, waiter and commands
-- Connects everything together
+## How it works (in this project)
+1. `CommandPattern.Run()` calls `LightAndFanClient.Run()` then `KitchenClient.Run()`.
+2. **Kitchen:** `KitchenClient` builds a `Kitchen` (receiver) and `Waiter` (invoker), wraps orders as `PlaceOrderCommand`s, and calls `waiter.PlaceOrder(...)` which executes and pushes to history; `waiter.CancelLastOrder()` pops and calls `Undo()`.
+3. **Light & Fan:** `LightAndFanClient` creates `Light`/`CeilingFan` receivers, wraps them in commands, loads them into `RemoteControl` slots via `SetCommand()`, then `OnButtonPressed`/`OffButtonPressed` execute and record `_lastCommand`, while `UndoButtonPressed()` reverses it.
 
----
+## When to use
+- You need to parameterise, queue, log, or schedule requests as first-class objects.
+- You want undo/redo (cancel) support.
+- You want to decouple the object that triggers an operation from the one that performs it (food ordering, banking transactions, e-commerce carts, text editors).
 
-## The Flow
-Customer
-└── creates PlaceOrderCommand (wraps food item + kitchen)
-└── gives command to Waiter
-└── Waiter calls Execute()
-└── PlaceOrderCommand tells Kitchen.PrepareFood()
-└── Kitchen prepares the food
-
-Customer cancels
-└── tells Waiter to cancel
-└── Waiter pops last command from Stack
-└── calls Undo()
-└── PlaceOrderCommand tells Kitchen.CancelFood()
-
-
----
-
-## The Code
-
-```csharp
-// ── COMMAND INTERFACE ─────────────────────────────────────────
-public interface ICommand
-{
-    void Execute();    // place the order
-    void Undo();       // cancel the order
-}
-
-// ── RECEIVER ──────────────────────────────────────────────────
-// Kitchen does the actual work — prepare or cancel food
-public class Kitchen
-{
-    // Prepares the food item
-    public void PrepareFood(string item)
-        => Console.WriteLine($"[Kitchen] Preparing: {item}");
-
-    // Cancels the food item
-    public void CancelFood(string item)
-        => Console.WriteLine($"[Kitchen] Cancelled: {item}");
-}
-
-// ── CONCRETE COMMAND ──────────────────────────────────────────
-// Wraps one food order as a command object
-public class PlaceOrderCommand : ICommand
-{
-    private Kitchen _kitchen;    // receiver — does the real work
-    private string _foodItem;    // what was ordered — needed for undo
-
-    public PlaceOrderCommand(Kitchen kitchen, string foodItem)
-    {
-        _kitchen  = kitchen;
-        _foodItem = foodItem;
-    }
-
-    // Place the order — tell kitchen to prepare
-    public void Execute() => _kitchen.PrepareFood(_foodItem);
-
-    // Cancel the order — tell kitchen to cancel
-    public void Undo()    => _kitchen.CancelFood(_foodItem);
-}
-
-// ── INVOKER ───────────────────────────────────────────────────
-// Waiter — takes orders and passes to kitchen
-// Does not know what food is — only knows ICommand
-public class Waiter
-{
-    // Keeps history of all placed orders
-    private Stack<ICommand> _orderHistory = new Stack<ICommand>();
-
-    // Place an order — execute and save to history
-    public void PlaceOrder(ICommand command)
-    {
-        Console.WriteLine("[Waiter] Sending order to kitchen...");
-        command.Execute();
-        _orderHistory.Push(command);    // save for possible cancellation
-    }
-
-    // Cancel last order
-    public void CancelLastOrder()
-    {
-        if (_orderHistory.Count == 0)
-        {
-            Console.WriteLine("[Waiter] No orders to cancel.");
-            return;
-        }
-
-        var lastOrder = _orderHistory.Pop();   // get last order
-        Console.WriteLine("[Waiter] Cancelling last order...");
-        lastOrder.Undo();                      // cancel it
-    }
-}
-
-// ── CLIENT ────────────────────────────────────────────────────
-// Customer placing orders at the restaurant
-class Program
-{
-    static void Main()
-    {
-        // Create receiver
-        var kitchen = new Kitchen();
-
-        // Create invoker
-        var waiter = new Waiter();
-
-        // Create commands — each order wrapped as object
-        var order1 = new PlaceOrderCommand(kitchen, "Burger");
-        var order2 = new PlaceOrderCommand(kitchen, "Pizza");
-        var order3 = new PlaceOrderCommand(kitchen, "Pasta");
-
-        Console.WriteLine("=== Customer Orders ===\n");
-        waiter.PlaceOrder(order1);
-        waiter.PlaceOrder(order2);
-        waiter.PlaceOrder(order3);
-
-        Console.WriteLine("\n=== Customer Cancels Last Order ===\n");
-        waiter.CancelLastOrder();
-
-        Console.WriteLine("\n=== Customer Cancels Again ===\n");
-        waiter.CancelLastOrder();
-
-        Console.WriteLine("\n=== Try Cancel When Nothing Left ===\n");
-        waiter.CancelLastOrder();
-        waiter.CancelLastOrder();
-        waiter.CancelLastOrder();
-    }
-}
-
-=== Customer Orders ===
-
-[Waiter] Sending order to kitchen...
-[Kitchen] Preparing: Burger
-
-[Waiter] Sending order to kitchen...
-[Kitchen] Preparing: Pizza
-
-[Waiter] Sending order to kitchen...
-[Kitchen] Preparing: Pasta
-
-=== Customer Cancels Last Order ===
-
-[Waiter] Cancelling last order...
-[Kitchen] Cancelled: Pasta
-
-=== Customer Cancels Again ===
-
-[Waiter] Cancelling last order...
-[Kitchen] Cancelled: Pizza
-
-=== Try Cancel When Nothing Left ===
-
-[Waiter] Cancelling last order...
-[Kitchen] Cancelled: Burger
-
-[Waiter] No orders to cancel.
-[Waiter] No orders to cancel.
-
-# Who Knows What
-Kitchen     — knows food only         (PrepareFood, CancelFood)
-Command     — knows Kitchen + food    (bridges waiter and kitchen)
-Waiter      — knows ICommand only     (no idea what food is)
-Customer    — knows everything        (creates and connects all)
-
-# Key Takeaway
-Without Command:   Waiter → directly calls Kitchen.PrepareFood()  — tightly coupled
-With Command:      Waiter → calls Execute() on ICommand           — loosely coupled
-                   Waiter does not know Kitchen exists at all
-
-# When to Use
-
-When to Use
-You need undo / cancel functionality
-You want to queue or schedule operations
-You want to log all operations for audit trail
-You want to decouple sender from receiver
-Examples: food ordering, banking transactions,
-e-commerce cart, text editors, CI/CD pipelines                  
+## Analogy
+A remote-control button (or a waiter's order slip) is a stored request you can press, replay, or undo without knowing how the device (or kitchen) fulfils it.

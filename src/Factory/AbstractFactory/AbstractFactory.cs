@@ -1,6 +1,5 @@
-using DesignPatterns.AbstractFactory.ConcreateProducts;
 
-namespace DesignPatterns.AbstractFactory;
+namespace DesignPatterns.Factory;
 public class AbstractFactory
 {
     public void Run()

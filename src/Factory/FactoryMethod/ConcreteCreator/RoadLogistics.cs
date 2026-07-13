@@ -1,3 +1,5 @@
+namespace DesignPatterns.Factory;
+
 // Decides to create a Truck - Concrete Creator
 public class RoadLogistics : Logistics
 {

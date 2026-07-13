@@ -1,107 +1,47 @@
 # Abstract Factory Pattern
 
-## What is it?
-A factory that creates **families of related objects** without specifying their exact classes.
-Think of it as a **factory of factories**.
+> **Intent:** Create whole families of related objects through one factory interface, so the client gets a matching set without naming the concrete classes.
 
-## Real-World Analogy
-- **IKEA**  — makes Modern sofa, Modern chair
-- **Royal** — makes Classic sofa, Classic chair
+**Category:** Creational
 
-You pick a brand (factory) and it gives you all matching furniture.
-You never mix IKEA sofa with Royal chair.
+## Participants
+- **Abstract Factory** (`IFurnitureFactory`) — contract with `CreateSofa()` and `CreateChair()`.
+- **Concrete Factories** (`IkeaFactory`, `RoyalFactory`) — each produces one consistent family of products.
+- **Abstract Products** (`ISofa`, `IChair`) — abstractions with `Describe()`; the client only sees these.
+- **Concrete Products** (`IkeaSofa`, `IkeaChair`, `RoyalSofa`, `RoyalChair`) — implementations grouped by brand.
+- **Client** (`Room`) — takes an `IFurnitureFactory` in its constructor, builds a sofa and chair, and `Describe()`s them.
+- **Demo** (`AbstractFactory`) — `Run()` builds a `Room` per factory to show family switching.
 
-## Step 1 — Product Interfaces
+## Flow diagram
 
-```csharp
-public interface ISofa
-{
-    void Describe();
-}
+```mermaid
+flowchart TD
+    Demo[AbstractFactory.Run] -->|new Room with factory| Room[Room]
+    Room -->|CreateSofa / CreateChair| Factory[IFurnitureFactory]
+    Ikea[IkeaFactory] --> Factory
+    Royal[RoyalFactory] --> Factory
+    Factory -->|IkeaFactory| IkeaSofa[IkeaSofa]
+    Factory -->|IkeaFactory| IkeaChair[IkeaChair]
+    Factory -->|RoyalFactory| RoyalSofa[RoyalSofa]
+    Factory -->|RoyalFactory| RoyalChair[RoyalChair]
+    IkeaSofa --> ISofa[ISofa]
+    RoyalSofa --> ISofa
+    IkeaChair --> IChair[IChair]
+    RoyalChair --> IChair
+    ISofa -->|Describe| Room
+    IChair -->|Describe| Room
+```
 
-public interface IChair
-{
-    void Describe();
-}
+## How it works (in this project)
+1. `AbstractFactory.Run()` creates `var room1 = new Room(new IkeaFactory())`.
+2. `Room`'s constructor calls `factory.CreateSofa()` and `factory.CreateChair()`, getting an `IkeaSofa` and `IkeaChair` (stored only as `ISofa` / `IChair`).
+3. `room1.Describe()` prints `IKEA Modern Sofa` then `IKEA Modern Chair`.
+4. `Run()` then builds `room2 = new Room(new RoyalFactory())`; the same `Room` code now yields a matched `Royal` family — no changes to `Room`.
 
-// IKEA products
-public class IkeaSofa : ISofa
-{
-    public void Describe() => Console.WriteLine("IKEA Modern Sofa");
-}
+## When to use
+- You need families of related objects that must be used together.
+- You want to switch the entire family at once (theme, brand, provider).
+- You want client code independent of concrete product classes.
 
-public class IkeaChair : IChair
-{
-    public void Describe() => Console.WriteLine("IKEA Modern Chair");
-}
-
-// Royal products
-public class RoyalSofa : ISofa
-{
-    public void Describe() => Console.WriteLine("Royal Classic Sofa");
-}
-
-public class RoyalChair : IChair
-{
-    public void Describe() => Console.WriteLine("Royal Classic Chair");
-}
-
-public interface IFurnitureFactory
-{
-    ISofa CreateSofa();
-    IChair CreateChair();
-}
-
-public class IkeaFactory : IFurnitureFactory
-{
-    public ISofa CreateSofa()   => new IkeaSofa();
-    public IChair CreateChair() => new IkeaChair();
-}
-
-public class RoyalFactory : IFurnitureFactory
-{
-    public ISofa CreateSofa()   => new RoyalSofa();
-    public IChair CreateChair() => new RoyalChair();
-}
-
-public class Room
-{
-    private readonly ISofa _sofa;
-    private readonly IChair _chair;
-
-    public Room(IFurnitureFactory factory)
-    {
-        _sofa  = factory.CreateSofa();
-        _chair = factory.CreateChair();
-    }
-
-    public void Describe()
-    {
-        _sofa.Describe();
-        _chair.Describe();
-    }
-}
-
-var room1 = new Room(new IkeaFactory());
-room1.Describe();
-// IKEA Modern Sofa
-// IKEA Modern Chair
-
-var room2 = new Room(new RoyalFactory());
-room2.Describe();
-// Royal Classic Sofa
-// Royal Classic Chair
-
-IFurnitureFactory  (abstract factory)
-    │
-    ├── IkeaFactory  ──creates──►  IkeaSofa,  IkeaChair
-    │
-    └── RoyalFactory ──creates──►  RoyalSofa, RoyalChair
-
-Room only talks to IFurnitureFactory — never to concrete classes
-
-When to Use
-You need families of related objects that must be used together
-You want to switch the whole family at once
-You want client code independent of concrete classes
-Examples: UI themes (Dark/Light), database providers, payment gateways
+## Analogy
+Picking a furniture brand: choose IKEA or Royal and every piece you receive matches — you never end up with an IKEA sofa beside a Royal chair.

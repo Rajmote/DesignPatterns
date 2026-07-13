@@ -1,11 +1,17 @@
-﻿using DesignPatterns.Composite;
+﻿using DesignPatterns.Adapter;
+using DesignPatterns.AdapterFacadeCombination;
+using DesignPatterns.Command;
+using DesignPatterns.Composite;
 using DesignPatterns.Decorator;
 using DesignPatterns.Enumerator;
+using DesignPatterns.Facade;
+using DesignPatterns.Factory;
 using DesignPatterns.Iterator;
 using DesignPatterns.Observer;
 using DesignPatterns.State;
 using DesignPatterns.Strategy;
 using DesignPatterns.Singleton;
+using DesignPatterns.TemplateMethod;
 
 Console.WriteLine("Welcome to the C# Design Patterns!");
 Console.WriteLine();

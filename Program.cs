@@ -1,13 +1,16 @@
 using DesignPatterns.Adapter;
 using DesignPatterns.AdapterFacadeCombination;
+using DesignPatterns.Bridge;
 using DesignPatterns.Command;
 using DesignPatterns.Composite;
+using DesignPatterns.Compound;
 using DesignPatterns.Decorator;
 using DesignPatterns.Enumerator;
 using DesignPatterns.Facade;
 using DesignPatterns.Factory;
 using DesignPatterns.Iterator;
 using DesignPatterns.Observer;
+using DesignPatterns.Proxy;
 using DesignPatterns.Singleton;
 using DesignPatterns.State;
 using DesignPatterns.Strategy;
@@ -84,4 +87,19 @@ Console.WriteLine();
 Console.WriteLine("----- TemplateMethod Design Pattern -----");
 var templateMethodPattern = new TemplateMethodPattern();
 templateMethodPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Bridge Design Pattern -----");
+var bridgePattern = new BridgePattern();
+bridgePattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Proxy Design Pattern -----");
+var proxyPattern = new ProxyPattern();
+proxyPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Compound Design Pattern -----");
+var compoundPattern = new CompoundPattern();
+compoundPattern.Run();
 Console.WriteLine();

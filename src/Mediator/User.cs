@@ -1,3 +1,5 @@
+namespace DesignPatterns.Mediator;
+
 // COLLEAGUE
 public class User(string name, IChatRoom room)
 {

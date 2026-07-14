@@ -1,5 +1,6 @@
+namespace DesignPatterns.Composite;
+
 // COMPOSITE — a folder. Holds children and delegates to them.
-using DesignPatterns.Composite;
 
 public class FolderItem : FileSystemItem
 {

@@ -1,3 +1,5 @@
+namespace DesignPatterns.Visitor;
+
 // VISITOR — one method per shape type
 public interface IShapeVisitor
 {

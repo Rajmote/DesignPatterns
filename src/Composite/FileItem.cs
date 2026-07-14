@@ -1,5 +1,6 @@
+namespace DesignPatterns.Composite;
+
 // LEAF — a single file. Does the real work; no children.
-using DesignPatterns.Composite;
 
 public class FileItem : FileSystemItem
 {

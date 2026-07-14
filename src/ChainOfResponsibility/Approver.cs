@@ -1,3 +1,5 @@
+namespace DesignPatterns.ChainOfResponsibility;
+
 // HANDLER — one link in the chain.
 public abstract class Approver
 {

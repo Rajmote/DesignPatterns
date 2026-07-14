@@ -1,3 +1,5 @@
+namespace DesignPatterns.State;
+
 public class PausedState : IPlayerState
 {
     public void Play(MediaPlayer p) { Console.WriteLine("Resuming"); p.TransitionTo(new PlayingState()); }

@@ -1,3 +1,5 @@
+namespace DesignPatterns.Visitor;
+
 public class Circle(double radius) : IShape
 {
     public double Radius => radius;

@@ -1,3 +1,5 @@
+namespace DesignPatterns.State;
+
 public class PlayingState : IPlayerState
 {
     public void Play(MediaPlayer p) => Console.WriteLine("Already playing");

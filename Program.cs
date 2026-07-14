@@ -1,6 +1,8 @@
 using DesignPatterns.Adapter;
 using DesignPatterns.AdapterFacadeCombination;
 using DesignPatterns.Bridge;
+using DesignPatterns.Builder;
+using DesignPatterns.ChainOfResponsibility;
 using DesignPatterns.Command;
 using DesignPatterns.Composite;
 using DesignPatterns.Compound;
@@ -8,13 +10,19 @@ using DesignPatterns.Decorator;
 using DesignPatterns.Enumerator;
 using DesignPatterns.Facade;
 using DesignPatterns.Factory;
+using DesignPatterns.Flyweight;
+using DesignPatterns.Interpreter;
 using DesignPatterns.Iterator;
+using DesignPatterns.Mediator;
+using DesignPatterns.Memento;
 using DesignPatterns.Observer;
+using DesignPatterns.Prototype;
 using DesignPatterns.Proxy;
 using DesignPatterns.Singleton;
 using DesignPatterns.State;
 using DesignPatterns.Strategy;
 using DesignPatterns.TemplateMethod;
+using DesignPatterns.Visitor;
 
 Console.WriteLine("Welcome to the C# Design Patterns!");
 Console.WriteLine();
@@ -102,4 +110,44 @@ Console.WriteLine();
 Console.WriteLine("----- Compound Design Pattern -----");
 var compoundPattern = new CompoundPattern();
 compoundPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Builder Design Pattern -----");
+var builderPattern = new BuilderPattern();
+builderPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Prototype Design Pattern -----");
+var prototypePattern = new PrototypePattern();
+prototypePattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Flyweight Design Pattern -----");
+var flyweightPattern = new FlyweightPattern();
+flyweightPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Chain of Responsibility Design Pattern -----");
+var chainOfResponsibilityPattern = new ChainOfResponsibilityPattern();
+chainOfResponsibilityPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Interpreter Design Pattern -----");
+var interpreterPattern = new InterpreterPattern();
+interpreterPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Mediator Design Pattern -----");
+var mediatorPattern = new MediatorPattern();
+mediatorPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Memento Design Pattern -----");
+var mementoPattern = new MementoPattern();
+mementoPattern.Run();
+Console.WriteLine();
+
+Console.WriteLine("----- Visitor Design Pattern -----");
+var visitorPattern = new VisitorPattern();
+visitorPattern.Run();
 Console.WriteLine();

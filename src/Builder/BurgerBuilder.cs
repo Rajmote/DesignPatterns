@@ -1,5 +1,6 @@
+namespace DesignPatterns.Builder;
+
 // BUILDER — collects choices step by step, then produces the product.
-using DesignPatterns.Builder;
 
 public class BurgerBuilder
 {

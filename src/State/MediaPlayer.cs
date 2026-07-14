@@ -1,3 +1,5 @@
+namespace DesignPatterns.State;
+
 // CONTEXT — holds the current state and delegates to it. No if/else anywhere.
 public class MediaPlayer
 {

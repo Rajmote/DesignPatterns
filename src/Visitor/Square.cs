@@ -1,3 +1,5 @@
+namespace DesignPatterns.Visitor;
+
 public class Square(double side) : IShape
 {
     public double Side => side;

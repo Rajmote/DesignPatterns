@@ -1,3 +1,5 @@
+namespace DesignPatterns.Singleton;
+
 // ── SINGLETON ────────────────────────────────────────────────
 public sealed class GameConfig
 {

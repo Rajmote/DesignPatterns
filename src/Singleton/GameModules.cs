@@ -1,3 +1,5 @@
+namespace DesignPatterns.Singleton;
+
 // ── GAME MODULES (simulate different parts of your app) ──────
 public class AudioManager
 {

@@ -1,3 +1,5 @@
+namespace DesignPatterns.Memento;
+
 // CARETAKER — keeps history, never inspects a memento.
 public class History
 {

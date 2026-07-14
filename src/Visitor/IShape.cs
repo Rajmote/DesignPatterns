@@ -1,3 +1,5 @@
+namespace DesignPatterns.Visitor;
+
 // ELEMENTS
 public interface IShape
 {

@@ -1,3 +1,5 @@
+namespace DesignPatterns.Flyweight;
+
 // FLYWEIGHT — intrinsic (shared, heavy) state. Immutable, reused across many trees.
 public class TreeType
 {

@@ -1,3 +1,5 @@
+namespace DesignPatterns.Flyweight;
+
 // FLYWEIGHT FACTORY — creates each TreeType once, then reuses it.
 public static class TreeTypeFactory
 {

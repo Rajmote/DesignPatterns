@@ -1,3 +1,5 @@
+namespace DesignPatterns.Mediator;
+
 // CONCRETE MEDIATOR — the only thing that knows every colleague.
 public class ChatRoom : IChatRoom
 {

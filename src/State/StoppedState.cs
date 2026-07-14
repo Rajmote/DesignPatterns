@@ -1,3 +1,5 @@
+namespace DesignPatterns.State;
+
 public class StoppedState : IPlayerState
 {
     public void Play(MediaPlayer p) { Console.WriteLine("Starting from beginning"); p.TransitionTo(new PlayingState()); }

@@ -1,3 +1,5 @@
+namespace DesignPatterns.Memento;
+
 public class TextEditor
 {
     private string _content = "";

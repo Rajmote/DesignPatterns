@@ -1,3 +1,5 @@
+namespace DesignPatterns.ChainOfResponsibility;
+
 public class Manager : Approver
 {
     protected override bool CanApprove(decimal amount) => amount <= 1_000;

@@ -1,3 +1,5 @@
+namespace DesignPatterns.Prototype;
+
 public class Address                       // a nested reference type
 {
     public string City { get; set; }

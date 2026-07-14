@@ -1,3 +1,5 @@
+namespace DesignPatterns.Mediator;
+
 public class MediatorPattern
 {
     public void Run()

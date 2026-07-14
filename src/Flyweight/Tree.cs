@@ -1,3 +1,5 @@
+namespace DesignPatterns.Flyweight;
+
 // CONTEXT — one per tree. Light: extrinsic state + a pointer to the shared flyweight.
 public class Tree(int x, int y, TreeType type)
 {

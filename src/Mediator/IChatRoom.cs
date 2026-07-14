@@ -1,3 +1,5 @@
+namespace DesignPatterns.Mediator;
+
 // MEDIATOR
 public interface IChatRoom
 {

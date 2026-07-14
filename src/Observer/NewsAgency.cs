@@ -1,3 +1,5 @@
+namespace DesignPatterns.Observer;
+
 
 public class NewsAgency : IObservable<string>
 {

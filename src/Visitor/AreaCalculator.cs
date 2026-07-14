@@ -1,3 +1,5 @@
+namespace DesignPatterns.Visitor;
+
 // A concrete operation: total up the area.
 public class AreaCalculator : IShapeVisitor
 {

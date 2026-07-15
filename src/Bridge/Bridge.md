@@ -17,6 +17,67 @@ drives every device.
 - **Concrete Implementors** (`Tv`, `Radio`) — the real devices, unaware of which remote drives them.
 - **Client** (`BridgePattern`) — `Run()` pairs any remote with any device.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IDevice {
+        <<interface>>
+        +string Name
+        +SetPower(bool on) void
+        +SetVolume(int percent) void
+    }
+    class Tv {
+        +string Name
+        +SetPower(bool on) void
+        +SetVolume(int percent) void
+    }
+    class Radio {
+        +string Name
+        +SetPower(bool on) void
+        +SetVolume(int percent) void
+    }
+    class RemoteControl {
+        #IDevice Device
+        +RemoteControl(IDevice device)
+        +TogglePower() void
+        +SetVolume(int percent) void
+    }
+    class AdvancedRemote {
+        +AdvancedRemote(IDevice device)
+        +Mute() void
+    }
+    class BridgePattern {
+        +Run() void
+    }
+    IDevice <|.. Tv : implements
+    IDevice <|.. Radio : implements
+    RemoteControl <|-- AdvancedRemote : extends
+    RemoteControl o-- IDevice : the bridge (has-a)
+    BridgePattern ..> RemoteControl : pairs remote and device
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as BridgePattern
+    participant Remote as RemoteControl
+    participant Tv as Tv
+    participant Adv as AdvancedRemote
+    participant Radio as Radio
+    Note over Client,Tv: RemoteControl is bridged to a Tv
+    Client->>Remote: TogglePower()
+    Remote->>Tv: SetPower(true)
+    Client->>Remote: SetVolume(30)
+    Remote->>Tv: SetVolume(30)
+    Note over Client,Radio: AdvancedRemote is bridged to a Radio
+    Client->>Adv: Mute()
+    Adv->>Radio: SetVolume(0)
+```
+
 ## Flow diagram
 
 ```mermaid

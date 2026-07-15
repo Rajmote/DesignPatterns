@@ -10,6 +10,74 @@
 - **Facade** (`BankFacade : IBankFacade`) — single entry point implementing the contract; owns and orchestrates every subsystem service.
 - **Subsystem services** (`IdentityService`, `CreditService`, `AccountService`, `CardService`, `OnlineBankingService`) — each does one job (`Verify`, `Check`, `Create`, `IssueDebitCard`, `Setup`) and is unaware of the facade.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IBankFacade {
+        <<interface>>
+        +OpenAccount(string name) void
+        +CloseAccount(string name) void
+    }
+    class BankFacade {
+        -IdentityService _identityService
+        -CreditService _creditService
+        -AccountService _accountService
+        -CardService _cardService
+        -OnlineBankingService _onlineBankingService
+        +OpenAccount(string name) void
+        +CloseAccount(string name) void
+    }
+    class FacadePattern {
+        +Run() void
+    }
+    class IdentityService {
+        +Verify(string name) void
+    }
+    class CreditService {
+        +Check(string name) void
+    }
+    class AccountService {
+        +Create(string name) void
+    }
+    class CardService {
+        +IssueDebitCard(string name) void
+    }
+    class OnlineBankingService {
+        +Setup(string name) void
+    }
+    IBankFacade <|.. BankFacade : implements
+    FacadePattern ..> IBankFacade : uses
+    BankFacade *-- IdentityService
+    BankFacade *-- CreditService
+    BankFacade *-- AccountService
+    BankFacade *-- CardService
+    BankFacade *-- OnlineBankingService
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as FacadePattern
+    participant Facade as BankFacade
+    participant Id as IdentityService
+    participant Cr as CreditService
+    participant Ac as AccountService
+    participant Ca as CardService
+    participant On as OnlineBankingService
+    Client->>Facade: OpenAccount(name)
+    Facade->>Id: Verify(name)
+    Facade->>Cr: Check(name)
+    Facade->>Ac: Create(name)
+    Facade->>Ca: IssueDebitCard(name)
+    Facade->>On: Setup(name)
+    Facade-->>Client: account opened
+    Note over Client,On: One client call, the facade runs all five steps in order
+```
+
 ## Flow diagram
 
 ```mermaid

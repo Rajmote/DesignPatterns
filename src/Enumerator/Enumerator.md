@@ -10,6 +10,56 @@
 - **Non-generic bridge** (`IEnumerable.GetEnumerator`) — legacy interface method that delegates to the generic version.
 - **Client** (`EnumeratorPattern`) — iterates with `foreach` and calls LINQ operators via `Run()`.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IEnumerable~string~ {
+        <<interface>>
+        +GetEnumerator() IEnumerator~string~
+    }
+    class IEnumerator~string~ {
+        <<interface>>
+        +MoveNext() bool
+        +Current string
+    }
+    class BookShelf {
+        -string[] _books
+        -int _count
+        +BookShelf(int max)
+        +Add(string book) void
+        +Count int
+        +GetEnumerator() IEnumerator~string~
+        ~GetEnumerator() IEnumerator
+    }
+    class EnumeratorPattern {
+        +Run() void
+    }
+    IEnumerable~string~ <|.. BookShelf : implements
+    BookShelf ..> IEnumerator~string~ : yields via yield return
+    EnumeratorPattern ..> BookShelf : foreach + LINQ
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as EnumeratorPattern
+    participant Shelf as BookShelf
+    participant Cursor as IEnumerator string
+    Client->>Shelf: foreach (var book in shelf)
+    Shelf->>Cursor: GetEnumerator()
+    loop until MoveNext returns false
+        Client->>Cursor: MoveNext()
+        Cursor-->>Client: true
+        Client->>Cursor: Current
+        Cursor-->>Client: book title
+    end
+    Note over Client,Cursor: yield return generates MoveNext and Current automatically
+```
+
 ## Flow diagram
 
 ```mermaid

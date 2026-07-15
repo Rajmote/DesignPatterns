@@ -11,6 +11,66 @@
 - **Concrete Strategies** (`FlyWithWings`, `FlyNoWay`) — the interchangeable flying implementations.
 - **Client** (`StrategyPattern`) — demo entry point that builds ducks and switches behaviour at runtime.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class Duck {
+        <<abstract>>
+        -IFlyBehaviour _flyBehaviour
+        #Duck(IFlyBehaviour flyBehaviour)
+        +PerformFly() void
+        +SetFlyBehaviour(IFlyBehaviour flyBehaviour) void
+        +Display()* void
+        +Swim() void
+    }
+    class IFlyBehaviour {
+        <<interface>>
+        +Fly() void
+    }
+    class FlyWithWings {
+        +Fly() void
+    }
+    class FlyNoWay {
+        +Fly() void
+    }
+    class MallardDuck {
+        +Display() void
+    }
+    class RubberDuck {
+        +Display() void
+    }
+    Duck o-- IFlyBehaviour : delegates PerformFly to
+    Duck <|-- MallardDuck : is-a
+    Duck <|-- RubberDuck : is-a
+    IFlyBehaviour <|.. FlyWithWings : implements
+    IFlyBehaviour <|.. FlyNoWay : implements
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as StrategyPattern
+    participant Mallard as MallardDuck
+    participant FWW as FlyWithWings
+    participant Rubber as RubberDuck
+    participant FNW as FlyNoWay
+    Client->>Mallard: PerformFly()
+    Mallard->>FWW: Fly()
+    FWW-->>Mallard: prints I am flying with wings
+    Client->>Rubber: PerformFly()
+    Rubber->>FNW: Fly()
+    FNW-->>Rubber: prints I can't fly
+    Note over Rubber: SetFlyBehaviour swaps the strategy at runtime
+    Client->>Rubber: SetFlyBehaviour(new FlyWithWings())
+    Client->>Rubber: PerformFly()
+    Rubber->>FWW: Fly()
+    FWW-->>Rubber: prints I am flying with wings
+```
+
 ## Flow diagram
 
 ```mermaid

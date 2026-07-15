@@ -10,6 +10,61 @@
 - **Clients** (`AudioManager`, `VideoManager`, `GameEngine`) — each reads `GameConfig.Instance` to get sound, resolution, and difficulty respectively.
 - **Demo** (`SingletonPattern`) — `Run()` exercises the instance, mutates it, and proves identity with `ReferenceEquals`.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class GameConfig {
+        -Lazy~GameConfig~ _instance$
+        -Dictionary~string, string~ _settings
+        +GameConfig Instance$
+        -GameConfig()
+        +Get(string key) string
+        +Set(string key, string value) void
+        +PrintAll() void
+    }
+    class AudioManager {
+        +Initialize() void
+    }
+    class VideoManager {
+        +Initialize() void
+    }
+    class GameEngine {
+        +Start() void
+    }
+    class SingletonPattern {
+        +Run() void
+    }
+
+    AudioManager ..> GameConfig : GameConfig.Instance
+    VideoManager ..> GameConfig : GameConfig.Instance
+    GameEngine ..> GameConfig : GameConfig.Instance
+    SingletonPattern ..> GameConfig : GameConfig.Instance
+
+    note for GameConfig "Private constructor: nothing outside the class can 'new' it. The static Lazy~GameConfig~ builds the one instance on first Instance access, thread-safely. Members marked with $ are static."
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Demo as SingletonPattern
+    participant Cfg as GameConfig
+    participant Audio as AudioManager
+    participant Engine as GameEngine
+
+    Demo->>Cfg: Instance (first access)
+    Note over Cfg: Lazy builds the one instance via the private ctor
+    Cfg-->>Demo: the single instance
+    Audio->>Cfg: Instance
+    Cfg-->>Audio: same instance
+    Engine->>Cfg: Instance
+    Cfg-->>Engine: same instance
+    Note over Cfg,Engine: every caller shares one GameConfig
+```
+
 ## Flow diagram
 
 ```mermaid

@@ -12,6 +12,72 @@
 - **Director** (`BurgerDirector`) — stores reusable recipes (fixed step sequences) like `CheeseBurger()` and `BaconDeluxe()`, so clients don't repeat common combinations.
 - **Client** (`BuilderPattern`) — the demo entry point `BuilderPattern.Run()`; builds a custom burger with the fluent builder and also asks the director for a ready-made recipe.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class Burger {
+        <<record>>
+        +string Size
+        +bool Cheese
+        +bool Bacon
+        +bool Lettuce
+        +bool Sauce
+    }
+    class BurgerBuilder {
+        -string _size
+        -bool _cheese
+        -bool _bacon
+        -bool _lettuce
+        -bool _sauce
+        +BurgerBuilder(string size)
+        +AddCheese() BurgerBuilder
+        +AddBacon() BurgerBuilder
+        +AddLettuce() BurgerBuilder
+        +AddSauce() BurgerBuilder
+        +Build() Burger
+    }
+    class BurgerDirector {
+        +CheeseBurger() Burger
+        +BaconDeluxe() Burger
+    }
+    class BuilderPattern {
+        +Run() void
+    }
+    BurgerBuilder ..> Burger : builds
+    BurgerDirector ..> BurgerBuilder : uses
+    BurgerDirector ..> Burger : returns
+    BuilderPattern ..> BurgerBuilder : builds custom
+    BuilderPattern ..> BurgerDirector : asks for recipe
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as BuilderPattern
+    participant Builder as BurgerBuilder
+    participant Burger as Burger
+    participant Director as BurgerDirector
+    Client->>Builder: new BurgerBuilder(large)
+    Client->>Builder: AddCheese()
+    Builder-->>Client: this (same builder)
+    Client->>Builder: AddBacon()
+    Builder-->>Client: this (same builder)
+    Client->>Builder: AddSauce()
+    Builder-->>Client: this (same builder)
+    Client->>Builder: Build()
+    Builder->>Burger: new Burger(size, cheese, bacon, lettuce, sauce)
+    Builder-->>Client: Burger
+    Note over Client,Director: reusable recipe hides the steps
+    Client->>Director: BaconDeluxe()
+    Director->>Builder: AddCheese().AddBacon().AddLettuce().AddSauce().Build()
+    Builder->>Burger: new Burger(...)
+    Director-->>Client: Burger
+```
+
 ## Flow diagram
 
 ```mermaid

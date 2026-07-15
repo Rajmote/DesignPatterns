@@ -11,6 +11,57 @@
 - **Nested reference type** (`Address`) — a separate object (`City`) held by reference inside `Employee`. Whether this is shared or copied is the whole point of the pattern.
 - **Client** (`PrototypePattern`) — the demo entry point `PrototypePattern.Run()`; clones an original employee both ways and prints the results to show the difference.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class Employee {
+        +string Name
+        +Address Address
+        +Employee(string name, Address address)
+        +ShallowClone() Employee
+        +DeepClone() Employee
+    }
+    class Address {
+        +string City
+        +Address(string city)
+    }
+    class PrototypePattern {
+        +Run() void
+    }
+
+    Employee --> Address : holds (reference)
+    PrototypePattern ..> Employee : clones
+
+    note for Employee "ShallowClone() uses MemberwiseClone(): copy SHARES the same Address. DeepClone() builds a new Address: copy is independent."
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Demo as PrototypePattern
+    participant Orig as Employee (original)
+    participant Copy as Employee (clone)
+    participant Addr as Address
+
+    Note over Orig,Addr: original holds Address(Amsterdam)
+    alt Shallow clone shares the Address
+        Demo->>Orig: ShallowClone()
+        Orig-->>Demo: copy (same Address reference)
+        Demo->>Copy: Address.City = Rotterdam
+        Copy->>Addr: writes the shared Address
+        Note over Orig,Addr: original.City is now Rotterdam (leaked!)
+    else Deep clone gets its own Address
+        Demo->>Orig: DeepClone()
+        Orig-->>Demo: copy (brand-new Address)
+        Demo->>Copy: Address.City = Utrecht
+        Note over Orig: original.City stays Amsterdam (safe)
+    end
+```
+
 ## Flow diagram
 
 ```mermaid

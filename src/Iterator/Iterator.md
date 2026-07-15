@@ -11,6 +11,68 @@
 - **Concrete Iterator** (`BookShelfIterator`) — holds the cursor `_index` and walks the shelf via `HasNext`/`Next`.
 - **Client** (`IteratorPattern`) — builds a shelf and loops through it via `Run()`.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IIterator~T~ {
+        <<interface>>
+        +HasNext() bool
+        +Next() T
+    }
+    class IAggregate~T~ {
+        <<interface>>
+        +CreateIterator() IIterator~T~
+    }
+    class BookShelf {
+        -string[] _books
+        -int _count
+        +BookShelf(int max)
+        +Count int
+        +Add(string book) void
+        +GetAt(int index) string
+        +CreateIterator() IIterator~string~
+    }
+    class BookShelfIterator {
+        -BookShelf _shelf
+        -int _index
+        +BookShelfIterator(BookShelf shelf)
+        +HasNext() bool
+        +Next() string
+    }
+    class IteratorPattern {
+        +Run() void
+    }
+    IAggregate <|.. BookShelf : implements
+    IIterator <|.. BookShelfIterator : implements
+    BookShelf ..> BookShelfIterator : creates
+    BookShelfIterator --> BookShelf : reads via Count/GetAt
+    IteratorPattern ..> BookShelf : builds
+    IteratorPattern ..> IIterator : loops with
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as IteratorPattern
+    participant Shelf as BookShelf
+    participant It as BookShelfIterator
+
+    Client->>Shelf: CreateIterator()
+    Shelf-->>Client: BookShelfIterator
+    loop while HasNext()
+        Client->>It: HasNext()
+        It-->>Client: true
+        Client->>It: Next()
+        It->>Shelf: GetAt(index)
+        Shelf-->>It: book
+        It-->>Client: book
+    end
+```
+
 ## Flow diagram
 
 ```mermaid

@@ -13,6 +13,62 @@
 - **Caretaker** (`History`) — keeps a stack of mementos and hands them back on undo, but never inspects them.
 - **Client** (`MementoPattern`) — wires the editor and history together and drives the save/undo demo.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IEditorMemento {
+        <<interface>>
+    }
+    class TextEditor {
+        -string _content
+        +Type(string text) void
+        +Show() void
+        +Save() IEditorMemento
+        +Restore(IEditorMemento memento) void
+    }
+    class Memento {
+        -Memento(string content)
+        +string Content
+    }
+    class History {
+        -Stack~IEditorMemento~ _states
+        +Push(IEditorMemento m) void
+        +Pop() IEditorMemento
+    }
+    class MementoPattern {
+        +Run() void
+    }
+    IEditorMemento <|.. Memento : implements
+    History o-- IEditorMemento : stores stack of
+    TextEditor ..> IEditorMemento : creates & reads
+    TextEditor *-- Memento : nested private class
+    MementoPattern ..> TextEditor : drives
+    MementoPattern ..> History : drives
+    note for Memento "private sealed class nested inside TextEditor; only TextEditor can cast the token back and read Content"
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as MementoPattern
+    participant Editor as TextEditor
+    participant History as History
+
+    Client->>Editor: Type("Hello")
+    Client->>Editor: Save()
+    Editor-->>Client: IEditorMemento
+    Client->>History: Push(m)
+    Note over Editor: more typing, then undo
+    Client->>History: Pop()
+    History-->>Client: IEditorMemento
+    Client->>Editor: Restore(m)
+    Note over Editor: casts token back, copies Content into _content
+```
+
 ## Flow diagram
 
 ```mermaid

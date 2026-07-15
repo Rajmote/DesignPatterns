@@ -11,6 +11,64 @@
 - **Concrete Products** (`CreditCardPayment`, `PayPalPayment`, `CryptoPayment`) — implementations of `IPayment`.
 - **Client / Demo** (`SimpleFactory`) — `Run()` picks a `PaymentMethod`, asks the factory for an `IPayment`, and calls `Pay`.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class PaymentMethod {
+        <<enumeration>>
+        CreditCard
+        PayPal
+        Crypto
+    }
+    class PaymentFactory {
+        +CreatePayment(PaymentMethod method)$ IPayment
+    }
+    class IPayment {
+        <<interface>>
+        +Pay(decimal amount) void
+    }
+    class CreditCardPayment {
+        +Pay(decimal amount) void
+    }
+    class PayPalPayment {
+        +Pay(decimal amount) void
+    }
+    class CryptoPayment {
+        +Pay(decimal amount) void
+    }
+    class SimpleFactory {
+        +Run() void
+    }
+
+    IPayment <|.. CreditCardPayment
+    IPayment <|.. PayPalPayment
+    IPayment <|.. CryptoPayment
+    PaymentFactory ..> IPayment : returns
+    PaymentFactory ..> PaymentMethod : selects on
+    PaymentFactory ..> CreditCardPayment : creates
+    PaymentFactory ..> PayPalPayment : creates
+    PaymentFactory ..> CryptoPayment : creates
+    SimpleFactory ..> PaymentFactory : uses
+    SimpleFactory ..> IPayment : uses
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Demo as SimpleFactory
+    participant Factory as PaymentFactory
+    participant Pay as PayPalPayment
+
+    Demo->>Factory: CreatePayment(PaymentMethod.PayPal)
+    Factory-->>Demo: PayPalPayment (typed as IPayment)
+    Demo->>Pay: Pay(150.00m)
+    Pay-->>Demo: Processing PayPal payment of $150
+```
+
 ## Flow diagram
 
 ```mermaid

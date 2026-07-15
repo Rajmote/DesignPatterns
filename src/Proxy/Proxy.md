@@ -42,6 +42,89 @@ touch the real object.
 
 ---
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+Here `IReportService` is the Subject, `ReportService` is the RealSubject, and the five flavours are
+the Proxies. Every proxy realizes the same interface, so the client can't tell them apart. Note the
+two exceptions: `VirtualReportProxy` *creates* a concrete `ReportService` on first use, and
+`RemoteReportProxy` holds no local subject at all — it reaches across the network via `HttpClient`.
+
+```mermaid
+classDiagram
+    class IReportService {
+        <<interface>>
+        +GetReport(int id) string
+    }
+    class ReportService {
+        +GetReport(int id) string
+    }
+    class VirtualReportProxy {
+        -ReportService _real
+        +GetReport(int id) string
+    }
+    class ProtectionReportProxy {
+        -IReportService _real
+        -bool _isAdmin
+        +ProtectionReportProxy(IReportService real, bool isAdmin)
+        +GetReport(int id) string
+    }
+    class CachingReportProxy {
+        -IReportService _real
+        -Dictionary~int, string~ _cache
+        +CachingReportProxy(IReportService real)
+        +GetReport(int id) string
+    }
+    class LoggingReportProxy {
+        -IReportService _real
+        +LoggingReportProxy(IReportService real)
+        +GetReport(int id) string
+    }
+    class RemoteReportProxy {
+        -HttpClient _http
+        +GetReport(int id) string
+    }
+
+    IReportService <|.. ReportService
+    IReportService <|.. VirtualReportProxy
+    IReportService <|.. ProtectionReportProxy
+    IReportService <|.. CachingReportProxy
+    IReportService <|.. LoggingReportProxy
+    IReportService <|.. RemoteReportProxy
+
+    ProtectionReportProxy --> IReportService : delegates
+    CachingReportProxy --> IReportService : delegates
+    LoggingReportProxy --> IReportService : delegates
+    VirtualReportProxy --> ReportService : creates on first use
+    RemoteReportProxy --> HttpClient : calls over network
+```
+
+---
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Demo as ProxyPattern
+    participant Proxy as CachingReportProxy
+    participant Real as ReportService
+
+    alt cache miss (first GetReport(4))
+        Demo->>Proxy: GetReport(4)
+        Proxy->>Real: GetReport(4)
+        Real-->>Proxy: Report#4
+        Note over Proxy: stores Report#4 in the cache
+        Proxy-->>Demo: Report#4
+    else cache hit (second GetReport(4))
+        Demo->>Proxy: GetReport(4)
+        Note over Proxy: found in cache, ReportService not called
+        Proxy-->>Demo: Report#4
+    end
+```
+
+---
+
 ## Flow diagram
 
 ```mermaid

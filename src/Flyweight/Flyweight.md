@@ -12,6 +12,62 @@
 - **Flyweight Factory** (`TreeTypeFactory`) — creates each `TreeType` once, caches it in a dictionary, and hands back the same instance for repeat requests.
 - **Client** (`FlyweightPattern`) — plants the forest, always getting flyweights through the factory.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class TreeType {
+        +string Name
+        +string Color
+        +string Texture
+        +TreeType(string name, string color, string texture)
+        +Draw(int x, int y) void
+    }
+    class Tree {
+        -int x
+        -int y
+        -TreeType type
+        +Tree(int x, int y, TreeType type)
+        +Draw() void
+    }
+    class TreeTypeFactory {
+        -Dictionary~string, TreeType~ s_types$
+        +GetTreeType(string name, string color, string texture)$ TreeType
+        +DistinctTypes int$
+    }
+    class FlyweightPattern {
+        +Run() void
+    }
+    Tree --> TreeType : shares
+    TreeTypeFactory o-- TreeType : caches
+    TreeTypeFactory ..> TreeType : creates
+    FlyweightPattern ..> TreeTypeFactory : GetTreeType
+    FlyweightPattern ..> Tree : creates
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as FlyweightPattern
+    participant Factory as TreeTypeFactory
+    participant Type as TreeType Oak
+    participant T as Tree
+    Client->>Factory: GetTreeType("Oak", "Green", "oak.png")
+    alt cache miss (first request for key)
+        Factory->>Type: new TreeType(name, color, texture)
+        Factory-->>Client: new shared TreeType
+    else cache hit (later requests)
+        Factory-->>Client: same cached TreeType
+    end
+    Client->>T: new Tree(x, y, type)
+    Client->>T: Draw()
+    T->>Type: Draw(x, y)
+    Note over Client,Type: Many trees share one flyweight, only (x, y) differs per tree
+```
+
 ## Flow diagram
 
 ```mermaid

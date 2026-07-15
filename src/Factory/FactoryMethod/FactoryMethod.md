@@ -11,6 +11,69 @@
 - **Concrete Products** (`Truck`, `Ship`, `Plane`) — implementations of `ITransport`.
 - **Client / Demo** (`FactoryMethod`) — `Run()` holds a `Logistics` reference, swaps concrete creators, and calls `PlanDelivery()`.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class Logistics {
+        <<abstract>>
+        +CreateTransport()* ITransport
+        +PlanDelivery() void
+    }
+    class RoadLogistics {
+        +CreateTransport() ITransport
+    }
+    class SeaLogistics {
+        +CreateTransport() ITransport
+    }
+    class AirLogistics {
+        +CreateTransport() ITransport
+    }
+    class ITransport {
+        <<interface>>
+        +Deliver() void
+    }
+    class Truck {
+        +Deliver() void
+    }
+    class Ship {
+        +Deliver() void
+    }
+    class Plane {
+        +Deliver() void
+    }
+
+    Logistics <|-- RoadLogistics
+    Logistics <|-- SeaLogistics
+    Logistics <|-- AirLogistics
+    ITransport <|.. Truck
+    ITransport <|.. Ship
+    ITransport <|.. Plane
+    Logistics ..> ITransport : uses
+    RoadLogistics ..> Truck : creates
+    SeaLogistics ..> Ship : creates
+    AirLogistics ..> Plane : creates
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Demo as FactoryMethod
+    participant Logi as RoadLogistics
+    participant Truck
+
+    Demo->>Logi: PlanDelivery()
+    Logi->>Logi: CreateTransport()
+    Logi-->>Logi: Truck
+    Note over Logi: prints "Planning delivery..."
+    Logi->>Truck: Deliver()
+    Truck-->>Logi: Delivering by road in a Truck.
+    Note over Demo,Truck: Same shape for SeaLogistics with Ship and AirLogistics with Plane
+```
+
 ## Flow diagram
 
 ```mermaid

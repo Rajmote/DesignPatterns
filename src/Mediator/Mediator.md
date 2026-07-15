@@ -12,6 +12,57 @@
 - **Colleague** (`User`) — knows only the room, not other users; `Send` posts through the room, `Receive` handles incoming messages.
 - **Client** (`MediatorPattern`) — sets up the room and users, then triggers a send.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IChatRoom {
+        <<interface>>
+        +Register(User user) void
+        +Send(string from, string message) void
+    }
+    class ChatRoom {
+        -List~User~ _users
+        +Register(User user) void
+        +Send(string from, string message) void
+    }
+    class User {
+        -IChatRoom room
+        +string Name
+        +User(string name, IChatRoom room)
+        +Send(string message) void
+        +Receive(string from, string message) void
+    }
+    class MediatorPattern {
+        +Run() void
+    }
+    IChatRoom <|.. ChatRoom : implements
+    ChatRoom o-- User : broadcasts to
+    User --> IChatRoom : posts through
+    MediatorPattern ..> ChatRoom : creates
+    MediatorPattern ..> User : creates
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as MediatorPattern
+    participant Alice as User (Alice)
+    participant Room as ChatRoom
+    participant Bob as User (Bob)
+    participant Carol as User (Carol)
+
+    Client->>Alice: Send("Hi all!")
+    Note over Alice: prints "Alice sends"
+    Alice->>Room: Send("Alice", "Hi all!")
+    Note over Room: broadcast to everyone except sender
+    Room->>Bob: Receive("Alice", "Hi all!")
+    Room->>Carol: Receive("Alice", "Hi all!")
+```
+
 ## Flow diagram
 
 ```mermaid

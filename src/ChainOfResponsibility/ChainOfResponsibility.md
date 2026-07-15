@@ -13,6 +13,58 @@
 - **Concrete Handler** (`Ceo`) — approves amounts le 100000.
 - **Client** (`ChainOfResponsibilityPattern`) — builds the chain with `SetNext` and fires requests through `Handle`.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class Approver {
+        <<abstract>>
+        -Approver _next
+        +SetNext(Approver next) Approver
+        +Handle(decimal amount) void
+        #CanApprove(decimal amount)* bool
+        #Approve(decimal amount)* void
+    }
+    class Manager {
+        #CanApprove(decimal amount) bool
+        #Approve(decimal amount) void
+    }
+    class Director {
+        #CanApprove(decimal amount) bool
+        #Approve(decimal amount) void
+    }
+    class Ceo {
+        #CanApprove(decimal amount) bool
+        #Approve(decimal amount) void
+    }
+    Approver <|-- Manager
+    Approver <|-- Director
+    Approver <|-- Ceo
+    Approver --> Approver : next
+```
+
+## Sequence diagram
+
+Runtime flow of `manager.Handle(50000)` — Manager and Director both pass, the CEO approves.
+
+```mermaid
+sequenceDiagram
+    participant C as ChainOfResponsibilityPattern
+    participant M as Manager
+    participant D as Director
+    participant CEO as Ceo
+    C->>M: Handle(50000)
+    Note over M: CanApprove(50000) is false (over 1000)
+    M->>D: _next.Handle(50000)
+    Note over D: CanApprove(50000) is false (over 10000)
+    D->>CEO: _next.Handle(50000)
+    Note over CEO: CanApprove(50000) is true (up to 100000)
+    CEO->>CEO: Approve(50000)
+    CEO-->>C: prints "CEO approved $50000"
+```
+
 ## Flow diagram
 
 ```mermaid

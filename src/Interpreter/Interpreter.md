@@ -12,6 +12,68 @@
 - **Non-terminal Expression** (`Add`, `Subtract`) — nodes that hold two child `IExpression`s and combine their interpreted results (`+` or `-`).
 - **Client** (`InterpreterPattern`) — builds the expression tree from the objects above and calls `Interpret()` on the root.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IExpression {
+        <<interface>>
+        +Interpret() int
+    }
+    class Number {
+        -int value
+        +Number(int value)
+        +Interpret() int
+    }
+    class Add {
+        -IExpression left
+        -IExpression right
+        +Add(IExpression left, IExpression right)
+        +Interpret() int
+    }
+    class Subtract {
+        -IExpression left
+        -IExpression right
+        +Subtract(IExpression left, IExpression right)
+        +Interpret() int
+    }
+    class InterpreterPattern {
+        +Run() void
+    }
+
+    IExpression <|.. Number
+    IExpression <|.. Add
+    IExpression <|.. Subtract
+    Add --> IExpression : left, right
+    Subtract --> IExpression : left, right
+    InterpreterPattern ..> IExpression : builds and evaluates
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as InterpreterPattern
+    participant Sub as Subtract
+    participant Add
+    participant N5 as Number(5)
+    participant N3 as Number(3)
+    participant N2 as Number(2)
+
+    Client->>Sub: Interpret()
+    Sub->>Add: Interpret()
+    Add->>N5: Interpret()
+    N5-->>Add: 5
+    Add->>N3: Interpret()
+    N3-->>Add: 3
+    Add-->>Sub: 8
+    Sub->>N2: Interpret()
+    N2-->>Sub: 2
+    Sub-->>Client: 6
+```
+
 ## Flow diagram
 
 ```mermaid

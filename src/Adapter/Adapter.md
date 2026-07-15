@@ -11,6 +11,65 @@
 - **Adapters** (`PayPalAdapter`, `GPayAdapter`) — implement `IPaymentProcessor` and translate `ProcessPayment` into the adaptee's own method.
 - **Adaptees** (`PayPal`, `GPay`) — third-party classes with mismatched method names (`PayPal.SendMoney`, `GPay.Pay`); cannot be modified.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IPaymentProcessor {
+        <<interface>>
+        +ProcessPayment(decimal amount) void
+    }
+    class OnlineStore {
+        -IPaymentProcessor _processor
+        +Checkout(decimal amount) void
+    }
+    class PayPalAdapter {
+        -PayPal _payPal
+        +PayPalAdapter(PayPal payPal)
+        +ProcessPayment(decimal amount) void
+    }
+    class GPayAdapter {
+        -GPay _gpay
+        +GPayAdapter(GPay gpay)
+        +ProcessPayment(decimal amount) void
+    }
+    class PayPal {
+        +SendMoney(decimal amount) void
+    }
+    class GPay {
+        +Pay(decimal amount) void
+    }
+    class AdapterPattern {
+        +Run() void
+    }
+    IPaymentProcessor <|.. PayPalAdapter : implements
+    IPaymentProcessor <|.. GPayAdapter : implements
+    OnlineStore o-- IPaymentProcessor : depends on
+    PayPalAdapter o-- PayPal : wraps
+    GPayAdapter o-- GPay : wraps
+    AdapterPattern ..> OnlineStore : builds and runs
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as AdapterPattern
+    participant Store as OnlineStore
+    participant Adapter as PayPalAdapter
+    participant PayPal as PayPal
+    Note over Client,Adapter: Store is built with new PayPalAdapter(new PayPal())
+    Client->>Store: Checkout(99.99)
+    Store->>Adapter: ProcessPayment(99.99)
+    Note over Adapter: translates the call
+    Adapter->>PayPal: SendMoney(99.99)
+    PayPal-->>Adapter: sent
+    Adapter-->>Store: done
+    Store-->>Client: checkout done
+```
+
 ## Flow diagram
 
 ```mermaid

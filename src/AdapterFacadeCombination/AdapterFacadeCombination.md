@@ -11,6 +11,82 @@
 - **Adapters** (`FlightAdapter`, `HotelAdapter`, `CabAdapter`) — implement `IBookingService` and translate `Book` into the adaptee's own method.
 - **Adaptees** (`FlightAPI`, `HotelAPI`, `CabAPI`) — third-party systems with mismatched methods (`ReserveSeat`, `CheckIn`, `RequestRide`); cannot be modified.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IBookingService {
+        <<interface>>
+        +Book(string name) void
+    }
+    class TravelFacade {
+        -IBookingService _flightBooking
+        -IBookingService _hotelBooking
+        -IBookingService _cabBooking
+        +TravelFacade()
+        +BookTrip(string name) void
+    }
+    class FlightAdapter {
+        -FlightAPI _flightAPI
+        +FlightAdapter(FlightAPI flightAPI)
+        +Book(string name) void
+    }
+    class HotelAdapter {
+        -HotelAPI _hotelAPI
+        +HotelAdapter(HotelAPI hotelAPI)
+        +Book(string name) void
+    }
+    class CabAdapter {
+        -CabAPI _cabAPI
+        +CabAdapter(CabAPI cabAPI)
+        +Book(string name) void
+    }
+    class FlightAPI {
+        +ReserveSeat(string passenger) void
+    }
+    class HotelAPI {
+        +CheckIn(string guest) void
+    }
+    class CabAPI {
+        +RequestRide(string passenger) void
+    }
+    class AdapterFacadeCombination {
+        +Run() void
+    }
+    IBookingService <|.. FlightAdapter : implements
+    IBookingService <|.. HotelAdapter : implements
+    IBookingService <|.. CabAdapter : implements
+    TravelFacade o-- IBookingService : holds three
+    FlightAdapter o-- FlightAPI : wraps
+    HotelAdapter o-- HotelAPI : wraps
+    CabAdapter o-- CabAPI : wraps
+    AdapterFacadeCombination ..> TravelFacade : builds and runs
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as AdapterFacadeCombination
+    participant Facade as TravelFacade
+    participant FA as FlightAdapter
+    participant FAPI as FlightAPI
+    participant HA as HotelAdapter
+    participant HAPI as HotelAPI
+    participant CA as CabAdapter
+    participant CAPI as CabAPI
+    Client->>Facade: BookTrip(Raj)
+    Facade->>FA: Book(Raj)
+    FA->>FAPI: ReserveSeat(Raj)
+    Facade->>HA: Book(Raj)
+    HA->>HAPI: CheckIn(Raj)
+    Facade->>CA: Book(Raj)
+    CA->>CAPI: RequestRide(Raj)
+    Facade-->>Client: trip fully booked
+```
+
 ## Flow diagram
 
 ```mermaid

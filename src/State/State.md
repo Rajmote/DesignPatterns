@@ -12,6 +12,74 @@
 - **Concrete State** (`PausedState`) — resumes on `Play` (→ `PlayingState`), stops on `Stop` (→ `StoppedState`); ignores `Pause`.
 - **Client** (`StatePattern`) — drives the demo via `Run()`.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IPlayerState {
+        <<interface>>
+        +Play(MediaPlayer player) void
+        +Pause(MediaPlayer player) void
+        +Stop(MediaPlayer player) void
+    }
+    class MediaPlayer {
+        +IPlayerState State
+        +MediaPlayer()
+        +TransitionTo(IPlayerState next) void
+        +Play() void
+        +Pause() void
+        +Stop() void
+    }
+    class StoppedState {
+        +Play(MediaPlayer p) void
+        +Pause(MediaPlayer p) void
+        +Stop(MediaPlayer p) void
+    }
+    class PlayingState {
+        +Play(MediaPlayer p) void
+        +Pause(MediaPlayer p) void
+        +Stop(MediaPlayer p) void
+    }
+    class PausedState {
+        +Play(MediaPlayer p) void
+        +Pause(MediaPlayer p) void
+        +Stop(MediaPlayer p) void
+    }
+
+    IPlayerState <|.. StoppedState
+    IPlayerState <|.. PlayingState
+    IPlayerState <|.. PausedState
+    MediaPlayer o-- IPlayerState : current state
+
+    StoppedState ..> PlayingState : Play
+    PlayingState ..> PausedState : Pause
+    PlayingState ..> StoppedState : Stop
+    PausedState ..> PlayingState : Play
+    PausedState ..> StoppedState : Stop
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Demo as StatePattern
+    participant Player as MediaPlayer
+    participant Stopped as StoppedState
+    participant Playing as PlayingState
+    participant Paused as PausedState
+
+    Demo->>Player: Play()
+    Player->>Stopped: Play(this)
+    Stopped->>Player: TransitionTo(PlayingState)
+    Note over Player: state is now PlayingState
+    Demo->>Player: Pause()
+    Player->>Playing: Pause(this)
+    Playing->>Player: TransitionTo(PausedState)
+    Note over Player: state is now PausedState (behaviour follows the state)
+```
+
 ## Flow diagram
 
 ```mermaid

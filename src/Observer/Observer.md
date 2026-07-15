@@ -11,6 +11,86 @@
 - **Concrete Observers** (`PhoneObserver`, `EmailObserver`) — print received news to their own channel.
 - **Client** (`ObserverPattern`) — demo entry point that subscribes observers, publishes, unsubscribes one, then closes.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IObservable~string~ {
+        <<interface>>
+        +Subscribe(IObserver~string~ observer) IDisposable
+    }
+    class IObserver~string~ {
+        <<interface>>
+        +OnNext(string value) void
+        +OnError(Exception error) void
+        +OnCompleted() void
+    }
+    class IDisposable {
+        <<interface>>
+        +Dispose() void
+    }
+    class NewsAgency {
+        -List~IObserver~ _observers
+        +Subscribe(IObserver~string~ observer) IDisposable
+        +PublishNews(string news) void
+        +Close() void
+    }
+    class Subscription {
+        -List~IObserver~ _list
+        -IObserver~string~ _observer
+        +Dispose() void
+    }
+    class PhoneObserver {
+        -string _name
+        +PhoneObserver(string name)
+        +OnNext(string news) void
+        +OnError(Exception e) void
+        +OnCompleted() void
+    }
+    class EmailObserver {
+        -string _email
+        +EmailObserver(string email)
+        +OnNext(string news) void
+        +OnError(Exception e) void
+        +OnCompleted() void
+    }
+    class ObserverPattern {
+        +Run() void
+    }
+    IObservable <|.. NewsAgency : implements
+    IObserver <|.. PhoneObserver : implements
+    IObserver <|.. EmailObserver : implements
+    IDisposable <|.. Subscription : implements
+    NewsAgency o-- "0..*" IObserver : notifies
+    NewsAgency *-- Subscription : nested; created on Subscribe
+    Subscription --> IObserver : removes on Dispose
+    ObserverPattern ..> NewsAgency : drives
+    note "IObservable, IObserver and IDisposable are built-in .NET interfaces (element type here is IObserver of string)"
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as ObserverPattern
+    participant Agency as NewsAgency
+    participant Phone as PhoneObserver
+    participant Email as EmailObserver
+
+    Client->>Agency: Subscribe(phone)
+    Agency-->>Client: IDisposable
+    Client->>Agency: Subscribe(email)
+    Agency-->>Client: IDisposable
+    Client->>Agency: PublishNews("It is raining in Pune!")
+    Agency->>Phone: OnNext(news)
+    Agency->>Email: OnNext(news)
+    Note over Client: subscription.Dispose() removes Phone
+    Client->>Agency: PublishNews("Traffic jam on highway!")
+    Agency->>Email: OnNext(news)
+```
+
 ## Flow diagram
 
 ```mermaid

@@ -13,6 +13,65 @@
 - **Concrete Visitors** (`AreaCalculator`, `DescribeVisitor`) — implement the operations. `AreaCalculator` sums areas into `Total`; `DescribeVisitor` prints a description.
 - **Client** (`VisitorPattern`) — builds shapes and pushes visitors over them.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IShape {
+        <<interface>>
+        +Accept(IShapeVisitor visitor) void
+    }
+    class Circle {
+        +double Radius
+        +Accept(IShapeVisitor visitor) void
+    }
+    class Square {
+        +double Side
+        +Accept(IShapeVisitor visitor) void
+    }
+    class IShapeVisitor {
+        <<interface>>
+        +Visit(Circle circle) void
+        +Visit(Square square) void
+    }
+    class AreaCalculator {
+        +double Total
+        +Visit(Circle circle) void
+        +Visit(Square square) void
+    }
+    class DescribeVisitor {
+        +Visit(Circle c) void
+        +Visit(Square s) void
+    }
+    IShape <|.. Circle : implements
+    IShape <|.. Square : implements
+    IShapeVisitor <|.. AreaCalculator : implements
+    IShapeVisitor <|.. DescribeVisitor : implements
+    Circle ..> IShapeVisitor : Accept calls Visit
+    Square ..> IShapeVisitor : Accept calls Visit
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as VisitorPattern
+    participant Circle as Circle
+    participant Square as Square
+    participant Area as AreaCalculator
+    Client->>Circle: Accept(areaCalculator)
+    Circle->>Area: Visit(this) resolves to Visit(Circle)
+    Area-->>Circle: Total += PI * Radius * Radius
+    Client->>Square: Accept(areaCalculator)
+    Square->>Area: Visit(this) resolves to Visit(Square)
+    Area-->>Square: Total += Side * Side
+    Note over Circle,Area: the Visit(this) callback selects the correct Visit overload - double dispatch
+```
+
+The `..>` links capture double dispatch: each element's `Accept` calls back into the visitor via `Visit(this)`, so the concrete method run depends on both the shape type and the visitor type. (`Total` on `AreaCalculator` has a private setter.)
+
 ## Flow diagram
 
 ```mermaid

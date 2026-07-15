@@ -12,6 +12,90 @@
 - **Client** (`Room`) — takes an `IFurnitureFactory` in its constructor, builds a sofa and chair, and `Describe()`s them.
 - **Demo** (`AbstractFactory`) — `Run()` builds a `Room` per factory to show family switching.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class IFurnitureFactory {
+        <<interface>>
+        +CreateSofa() ISofa
+        +CreateChair() IChair
+    }
+    class IkeaFactory {
+        +CreateSofa() ISofa
+        +CreateChair() IChair
+    }
+    class RoyalFactory {
+        +CreateSofa() ISofa
+        +CreateChair() IChair
+    }
+    class ISofa {
+        <<interface>>
+        +Describe() void
+    }
+    class IChair {
+        <<interface>>
+        +Describe() void
+    }
+    class IkeaSofa {
+        +Describe() void
+    }
+    class RoyalSofa {
+        +Describe() void
+    }
+    class IkeaChair {
+        +Describe() void
+    }
+    class RoyalChair {
+        +Describe() void
+    }
+    class Room {
+        -ISofa _sofa
+        -IChair _chair
+        +Room(IFurnitureFactory factory)
+        +Describe() void
+    }
+
+    IFurnitureFactory <|.. IkeaFactory
+    IFurnitureFactory <|.. RoyalFactory
+    ISofa <|.. IkeaSofa
+    ISofa <|.. RoyalSofa
+    IChair <|.. IkeaChair
+    IChair <|.. RoyalChair
+    Room o-- IFurnitureFactory : uses
+    Room *-- ISofa
+    Room *-- IChair
+    IkeaFactory ..> IkeaSofa : creates
+    IkeaFactory ..> IkeaChair : creates
+    RoyalFactory ..> RoyalSofa : creates
+    RoyalFactory ..> RoyalChair : creates
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Demo as AbstractFactory
+    participant Room
+    participant Factory as IkeaFactory
+    participant Sofa as IkeaSofa
+    participant Chair as IkeaChair
+
+    Demo->>Room: new Room(new IkeaFactory())
+    Room->>Factory: CreateSofa()
+    Factory-->>Room: IkeaSofa
+    Room->>Factory: CreateChair()
+    Factory-->>Room: IkeaChair
+    Demo->>Room: Describe()
+    Room->>Sofa: Describe()
+    Sofa-->>Room: IKEA Modern Sofa
+    Room->>Chair: Describe()
+    Chair-->>Room: IKEA Modern Chair
+    Note over Demo,Chair: Repeat with RoyalFactory for a matched Royal family, no Room changes
+```
+
 ## Flow diagram
 
 ```mermaid

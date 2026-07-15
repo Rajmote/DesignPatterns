@@ -12,6 +12,52 @@
 - **Controller** (`PlusButton`) — turns a `Press()` into `Counter.Add(1)`; swap it for different behaviour. *(Strategy.)*
 - **Client** (`CompoundPattern`) — `Run()` wires the three together.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+`Counter` is the Observer subject (its `Changed` event); `Display` subscribes to it; `PlusButton` is the swappable Strategy that drives the model. Note the model references neither — the arrows point *into* `Counter`, keeping it decoupled.
+
+```mermaid
+classDiagram
+    class Counter {
+        +int Count
+        +Action~int~ Changed
+        +Add(int step) void
+    }
+    class Display {
+        +Display(Counter model)
+    }
+    class PlusButton {
+        -Counter _model
+        +Press() void
+    }
+    Display ..> Counter : subscribes to Changed
+    PlusButton --> Counter : _model
+```
+
+## Sequence diagram
+
+`button.Press()` drives the model (Strategy); the model raises `Changed` and the view reacts (Observer).
+
+```mermaid
+sequenceDiagram
+    participant Cl as CompoundPattern
+    participant B as PlusButton
+    participant M as Counter
+    participant V as Display
+    Note over V: Display subscribed to M.Changed at construction
+    Cl->>B: Press()
+    B->>M: Add(1)
+    Note over M: Count becomes 1
+    M->>V: Changed(1)
+    V-->>M: prints "Count = 1"
+    Cl->>B: Press()
+    B->>M: Add(1)
+    M->>V: Changed(2)
+    V-->>M: prints "Count = 2"
+```
+
 ## Flow diagram
 
 ```mermaid

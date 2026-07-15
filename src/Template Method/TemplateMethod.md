@@ -10,6 +10,49 @@
 - **Concrete Class** (`Coffee`) — overrides `Brew` (drip through filter) and `AddCondiments` (add sugar and milk).
 - **Client** (`TemplateMethodPattern`) — calls `Prepare()` on each drink via `Run()`.
 
+## UML class diagram
+
+> New to UML notation? See [UML-GUIDE](../UML-GUIDE.md).
+
+```mermaid
+classDiagram
+    class HotDrink {
+        <<abstract>>
+        +Prepare() void
+        -BoilWater() void
+        -PourInCup() void
+        #Brew()* void
+        #AddCondiments()* void
+    }
+    class Tea {
+        #Brew() void
+        #AddCondiments() void
+    }
+    class Coffee {
+        #Brew() void
+        #AddCondiments() void
+    }
+    HotDrink <|-- Tea : is-a
+    HotDrink <|-- Coffee : is-a
+```
+
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Client as TemplateMethodPattern
+    participant Drink as HotDrink (Tea instance)
+    participant Tea as Tea (overrides)
+    Client->>Drink: Prepare()
+    Note over Drink: Prepare() is the inherited template method - fixed step order
+    Drink->>Drink: BoilWater() shared - prints Boiling water
+    Drink->>Tea: Brew() overridden - prints Steeping the tea bag
+    Drink->>Drink: PourInCup() shared - prints Pouring into cup
+    Drink->>Tea: AddCondiments() overridden - prints Adding lemon
+```
+
+`Prepare()` is the concrete template method that calls the four steps in a fixed order; `BoilWater()` and `PourInCup()` are private shared steps; `Brew()*` and `AddCondiments()*` are abstract (starred), so `Tea` and `Coffee` supply them.
+
 ## Flow diagram
 
 ```mermaid
